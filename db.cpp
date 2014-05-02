@@ -94,35 +94,35 @@ Book* DB::find_or_create_book(string name)
 	books.push_back(new Book(book_info));
 }
 
-void DB::configure_shelves(User* current_user, vector<Node*>& nodes)
+void DB::configure_shelves(User* c_user, vector<Node*>& nodes)
 {
 	for(int j = 0; j < nodes.size();j++)
 	{
 
-		Shelf* shelf = current_user->library->add_shelf((*nodes[j])["name"]);
+		Shelf* shelf = c_user->library->add_shelf((*nodes[j])["name"]);
 
 		for(int k = 0; k < nodes[j]->children.size(); k++)
 			shelf->add_book(nodes[j]->children[k]->value);
 	}
 }
 
-void DB::configure_activity_logs(User* current_user, vector<Node*>& nodes)
+void DB::configure_activity_logs(User* c_user, vector<Node*>& nodes)
 {
 	for(int j = 0; j < nodes.size(); j++)
 	{
 		string name = nodes[j]->get_child_node("username")->value;
 		string message = nodes[j]->get_child_node("message")->value;
-		current_user->activity_logs.push_back(new Log(name, message));
+		c_user->activity_logs.push_back(new Log(name, message));
 	}
 }
 
-void DB::configure_stared_books(User* current_user, vector<Node*>& nodes)
+void DB::configure_stared_books(User* c_user, vector<Node*>& nodes)
 {
 	for(int j = 0; j < nodes.size(); j++)
 	{
 		Book* book = find_book(nodes[j]->value);
 		if(book != NULL)
-			current_user->stared_books.push_back(book);
+			c_user->stared_books.push_back(book);
 		else
 			cerr << "[db][populate_users] book not found" << endl;
 	}
@@ -134,24 +134,24 @@ void DB::populate_users()
 {
 	ifstream users_db(USERS);
 	string line;
-	User* current_user = NULL;
+	User* c_user = NULL;
 
 	map <string, vector <string> > friends;
 
 	for(int i = 0; i < xml["users"]->children.size();i++)
 	{
 		Node* user_node = xml["users"]->children[i];
-		current_user = new User;
-		current_user->username = user_node->get_child_node("username")->value;
-		current_user->password = user_node->get_child_node("password")->value;
+		c_user = new User;
+		c_user->username = user_node->get_child_node("username")->value;
+		c_user->password = user_node->get_child_node("password")->value;
 		
-		configure_shelves(current_user, user_node->get_child_node("shelves")->children);
-		configure_activity_logs(current_user, user_node->get_child_node("ActivityLogs")->children);
-		configure_stared_books(current_user, user_node->get_child_node("favorites")->children);
+		configure_shelves(c_user, user_node->get_child_node("shelves")->children);
+		configure_activity_logs(c_user, user_node->get_child_node("ActivityLogs")->children);
+		configure_stared_books(c_user, user_node->get_child_node("favorites")->children);
 		for(int j = 0; j < user_node->get_child_node("friends")->children.size(); j++)
-			friends[current_user->username].push_back(user_node->get_child_node("friends")->children[j]->value);
+			friends[c_user->username].push_back(user_node->get_child_node("friends")->children[j]->value);
 
-		users.push_back(current_user);
+		users.push_back(c_user);
 	}
 
 	map <string, vector<string> >::iterator i;

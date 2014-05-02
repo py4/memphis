@@ -42,6 +42,7 @@ private:
 	std::vector <User*> users;
 	std::vector <Book*> books;
 
+	User* current_user;
 };
 
 #endif

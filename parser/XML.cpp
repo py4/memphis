@@ -41,8 +41,7 @@ void XML::parse()
 		trim(line);
 		if(is_tag(line))
 		{
-			current_node->children.push_back(new Node(get_tag_name(line),"",depth));
-			current_node->children.back()->parent = current_node;
+			current_node->add_node(get_tag_name(line));
 			current_node = current_node->children.back();
 			map <string,string> result = get_attributes(line);
 			current_node->set_attributes(result);

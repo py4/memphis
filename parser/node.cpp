@@ -16,7 +16,9 @@ void Node::add_node(Node* node)
 
 void Node::add_node(string name, string value, int depth)
 {
-	children.push_back(new Node(name,value,depth));
+	Node* new_node = new Node(name,value,this->depth+1);
+	new_node->parent = this;
+	children.push_back(new_node);
 }
 
 string Node::operator[](string attribute)
