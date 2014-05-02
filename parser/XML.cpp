@@ -1,5 +1,4 @@
 #include "XML.h"
-#include "node.h"
 #include <iostream>
 using namespace std;
 
@@ -11,6 +10,7 @@ XML::XML()
 
 XML::~XML()
 {
+	cout << "destructor of XML" << endl;
 	delete_node(root_node);
 }
 
@@ -18,11 +18,16 @@ void XML::delete_node(Node* node)
 {
 	for(int i = 0; i < node->children.size(); i++)
 		delete_node(node->children[i]);
+	node->children.clear();
+	node->attributes.clear();
 	delete node;
 }
 
 void XML::load(string file_name)
 {
+	delete_node(root_node);
+	root_node = new Node("root");
+	current_node = root_node;
 	raw_data.open(file_name.c_str());
 }
 

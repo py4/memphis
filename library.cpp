@@ -10,10 +10,13 @@ Library::~Library()
 	
 	for(int i = 0; i < shelves.size(); i++)
 		delete shelves[i];
+
+	shelves.clear();
 }
-void Library::add_shelf(string name)
+Shelf* Library::add_shelf(string name)
 {
 	shelves.push_back(new Shelf(name));
+	return shelves.back();
 }
 
 

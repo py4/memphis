@@ -9,6 +9,7 @@ using namespace std;
 class Node
 {
 	friend class XML;
+	friend class DB;
 public:
 	Node();
 	Node(string, string = "");

@@ -4,8 +4,8 @@
 #include <fstream>
 #include <string>
 #include "parser.h"
+#include "node.h"
 
-class Node;
 
 class XML
 {

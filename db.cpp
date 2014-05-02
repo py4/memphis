@@ -13,6 +13,8 @@ DB* DB::instance = 0;
 
 DB::DB()
 {
+	xml.load(DATA);
+	xml.parse();
 	populate();
 }
 
@@ -82,88 +84,78 @@ Book* DB::find_or_create_book(string name)
 	books.push_back(new Book(book_info));
 }
 
+void DB::configure_shelves(User* current_user, vector<Node*>& nodes)
+{
+	for(int j = 0; j < nodes.size();j++)
+	{
+		Shelf* shelf = current_user->library->add_shelf((*nodes[j])["name"]);
+
+		for(int k = 0; k < nodes[j]->children.size(); k++)
+			shelf->add_book(nodes[j]->children[k]->value);
+	}
+}
+
+void DB::configure_activity_logs(User* current_user, vector<Node*>& nodes)
+{
+	for(int j = 0; j < nodes.size(); j++)
+		current_user->activity_logs.push_back(new Log(nodes[j]->get_child_node("username")->value, nodes[j]->get_child_node("message")->value));
+}
+
+void DB::configure_stared_books(User* current_user, vector<Node*>& nodes)
+{
+	for(int j = 0; j < nodes.size(); j++)
+	{
+		Book* book = find_book(nodes[j]->value);
+		if(book != NULL)
+			current_user->stared_books.push_back(book);
+		else
+			cerr << "[db][populate_users] book not found" << endl;
+	}
+}
+
+
+
 void DB::populate_users()
 {
 	ifstream users_db(USERS);
 	string line;
 	User* current_user = NULL;
-	while(getline(users_db,line))
+
+	map <string, vector <string> > friends;
+	
+	for(int i = 0; i < xml["users"]->children.size();i++)
 	{
-		if(line == "<users>" or line == "</users>")
-			continue;
-		if(line == "<user>")
+		Node* user_node = xml["users"]->children[i];
+		current_user = new User;
+		current_user->username = user_node->get_child_node("username")->value;
+		current_user->password = user_node->get_child_node("password")->value;
+		
+		configure_shelves(current_user, user_node->get_child_node("shelves")->children);
+		configure_activity_logs(current_user, user_node->get_child_node("ActivityLogs")->children);
+		configure_stared_books(current_user, user_node->get_child_node("favorites")->children);
+		
+		for(int j = 0; j < user_node->get_child_node("friends")->children.size(); j++)
 		{
-			current_user = new User;
-			while(true)
-			{
-				getline(users_db,line); //username
+			friends[current_user->username].push_back(user_node->get_child_node("friends")->children[j]->value);
+			/*User* user_friend = find_user(user_node.get_node("friends")->children[j].value);
+			if(user_friend != NULL)
+			current_user->friends.push_back(user);*/
+		}
 
-				if(line == "</user>")
-					break;
-				
-				current_user->username = get_value_of_tag(line);
+		users.push_back(current_user);
+	}
 
-				getline(users_db,line); //password
-				current_user->password = get_value_of_tag(line);
-
-				getline(users_db,line); //shelves
-
-				while(true)
-				{
-					getline(users_db,line);
-
-					if(line == "</shelves>")
-						break;
-					
-					string shelf_name = get_shelf_name(line);
-					if(shelf_name.length() > 0)
-					{
-						current_user->library->add_shelf(shelf_name);
-						while(true)
-						{
-							getline(users_db,line); //book
-							if(line == "</shelf>")
-								break;
-							current_user->library->shelves.back()->add_book(get_value_of_tag(line));
-						}
-					}
-					else
-						cerr << "shelf_name length bug" << endl;
-				}
-
-				getline(users_db,line);
-				if(line == "<friends>")
-				{
-					while(true)
-					{
-						getline(users_db,line);
-						if(line == "</friends>")
-							break;
-
-						User* new_friend = find_user(get_value_of_tag(line));
-						if(new_friend != NULL)
-							current_user->friends.push_back(new_friend);
-						else
-							cerr << "[db populator] username not found" << endl;
-					}
-				}
-
-				getline(users_db,line);
-				if(line == "<ActivityLogs>")
-				{
-					while(true)
-					{
-						getline(users_db,line);
-						//if(line == "</ActivityLogs>")
-					}
-				}
-				while(true)
-				{
-					//getline(
-				}
-				
-			}
-			continue;
+	map <string, vector<string> >::iterator i;
+	for(i = friends.begin(); i != friends.end(); i++)
+	{
+		User* user = find_user(i->first);
+		for(int j = 0; j < i->second.size(); j++)
+		{
+			User* user_friend = find_user(i->second[j]);
+			if(user_friend != NULL)
+				user->friends.push_back(user_friend);
+			else
+				cerr << "[db populator] user friend not found" << endl;
 		}
 	}
 }
@@ -171,4 +163,5 @@ void DB::populate_users()
 void DB::populate()
 {
 	populate_books();
+	populate_users();
 }

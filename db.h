@@ -3,10 +3,10 @@
 
 #define DATABASE "database.txt"
 #define USERS "users.txt"
+#define DATA "data.txt"
 
 #include <vector>
-#include "parser/parser.h"
-
+#include "parser/XML.h"
 class User;
 class Book;
 
@@ -23,17 +23,23 @@ public:
 private:
 	void populate_books();
 	void populate_users();
-	void populate();
+	void populate();	
+	Book* find_or_create_book(string);
+
+	void configure_shelves(User*, vector<Node*>&);
+	void configure_activity_logs(User*, vector<Node*>&);
+	void configure_stared_books(User*, vector<Node*> &);
+
+	DB();
+  DB(DB const&);
+	~DB();
+  void operator=(DB const&);
+
+  static DB* instance;
+	XML xml;
 	std::vector <User*> users;
 	std::vector <Book*> books;
 
-	Book* find_or_create_book(string);
-
-  static DB* instance;
-	DB();
-  DB(DB const&);              // Don't Implement.
-	~DB();
-  void operator=(DB const&); // Don't implement
 };
 
 #endif

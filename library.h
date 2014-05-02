@@ -10,7 +10,7 @@ class Library
 {
 	friend class DB;
 public:
-	void add_shelf(std::string);
+	Shelf* add_shelf(std::string);
 	~Library();
 private:
 	std::vector <Shelf*> shelves;

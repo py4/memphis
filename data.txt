@@ -11,11 +11,11 @@
 			<shelves>
 				<shelf name="default">
 					<book> 
-						book1
+						When Patty Went to College
 					</book>
 
 					<book> 
-						book2
+						Blindness
 					 </book>
 				</shelf>
 
@@ -28,27 +28,79 @@
 			
 			<friends>
 				<user> 
-					user1
-				 </user>
-				<user> 
 					user2
-				</user>
+				 </user>
 			</friends>
 
 			<ActivityLogs>
 				<log> 
-					log1
+					<username>
+						user2
+					</username>
+
+					<message>
+						added felan
+					</message
 				 </log>
 			</ActivityLogs>
 			
 			<favorites>
 				<book> 
-					fbook1
-				</book>
-
-				<book> 
-					fbook2
-				</book>		
+					When Patty Went to College
+				</book>	
 			</favorites>
 	</user>		
+
+	<user>
+		<username>
+			user2
+		</username>
+		
+		<password>
+			password
+		</password>
+		
+			<shelves>
+				<shelf name="default">
+					<book> 
+						Franny and Zooey
+					</book>
+
+					<book> 
+						Little Women
+					 </book>
+				</shelf>
+
+				<shelf name="shelf1">
+				</shelf>
+
+				<shelf name="shelf2">
+					Lady L
+				</shelf>
+			</shelves>			
+			
+			<friends>
+				<user> 
+					user1
+				 </user>
+			</friends>
+
+			<ActivityLogs>
+				<log> 
+					<username>
+						user1
+					</username>
+					<message>
+						did felan to felan
+					</message>
+				 </log>
+			</ActivityLogs>
+			
+			<favorites>
+				<book> 
+					Lady L
+				</book>
+			</favorites>
+	</user>		
+
 </users>

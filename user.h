@@ -3,10 +3,10 @@
 
 #include <vector>
 #include <string>
+#include "log.h"
 
 class Library;
 class Stared;
-class Log;
 class Book;
 
 class User
