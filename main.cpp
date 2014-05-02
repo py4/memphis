@@ -6,14 +6,11 @@ using namespace std;
 
 int main()
 {
-	if(DB::db())
-		cout << "yes" << endl;
-	//cout << get_shelf_name("<shel f name=\"this is a test name\">salam</shelf>");
+	//if(DB::db())
+	//cout << "yes" << endl;
 	map<string,string> result = get_attributes("<salam>");
-	//XML xml;
-	//xml.load("data.txt");
-	//xml.parse();
-	//cout << xml["friends"] << endl;
+	DB::create_instance();
+	cout << DB::db()->dump_db() << endl;
 	DB::free_db();
 	return 0;
 }

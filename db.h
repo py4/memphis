@@ -19,6 +19,8 @@ public:
 	
 	Book* find_book(string);
 	User* find_user(string);
+	string dump_db();
+	static bool create_instance();
 	
 private:
 	void populate_books();

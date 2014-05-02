@@ -15,14 +15,22 @@ DB::DB()
 {
 	xml.load(DATA);
 	xml.parse();
-	populate();
 }
 
 DB* DB::db()
 {
+	return DB::instance;
+}
+
+bool DB::create_instance()
+{
 	if(!instance)
+	{
 		instance = new DB;
-	return instance;
+		instance->populate();
+		return true;
+	}
+	return false;
 }
 
 void DB::free_db()
@@ -59,8 +67,10 @@ void DB::populate_books()
 Book* DB::find_book(string name)
 {
 	for(int i = 0; i < books.size(); i++)
+	{
 		if(books[i]->name == name)
 			return books[i];
+	}
 	return NULL;
 }
 
@@ -88,6 +98,7 @@ void DB::configure_shelves(User* current_user, vector<Node*>& nodes)
 {
 	for(int j = 0; j < nodes.size();j++)
 	{
+
 		Shelf* shelf = current_user->library->add_shelf((*nodes[j])["name"]);
 
 		for(int k = 0; k < nodes[j]->children.size(); k++)
@@ -98,7 +109,11 @@ void DB::configure_shelves(User* current_user, vector<Node*>& nodes)
 void DB::configure_activity_logs(User* current_user, vector<Node*>& nodes)
 {
 	for(int j = 0; j < nodes.size(); j++)
-		current_user->activity_logs.push_back(new Log(nodes[j]->get_child_node("username")->value, nodes[j]->get_child_node("message")->value));
+	{
+		string name = nodes[j]->get_child_node("username")->value;
+		string message = nodes[j]->get_child_node("message")->value;
+		current_user->activity_logs.push_back(new Log(name, message));
+	}
 }
 
 void DB::configure_stared_books(User* current_user, vector<Node*>& nodes)
@@ -122,7 +137,7 @@ void DB::populate_users()
 	User* current_user = NULL;
 
 	map <string, vector <string> > friends;
-	
+
 	for(int i = 0; i < xml["users"]->children.size();i++)
 	{
 		Node* user_node = xml["users"]->children[i];
@@ -133,14 +148,8 @@ void DB::populate_users()
 		configure_shelves(current_user, user_node->get_child_node("shelves")->children);
 		configure_activity_logs(current_user, user_node->get_child_node("ActivityLogs")->children);
 		configure_stared_books(current_user, user_node->get_child_node("favorites")->children);
-		
 		for(int j = 0; j < user_node->get_child_node("friends")->children.size(); j++)
-		{
 			friends[current_user->username].push_back(user_node->get_child_node("friends")->children[j]->value);
-			/*User* user_friend = find_user(user_node.get_node("friends")->children[j].value);
-			if(user_friend != NULL)
-			current_user->friends.push_back(user);*/
-		}
 
 		users.push_back(current_user);
 	}
@@ -164,4 +173,9 @@ void DB::populate()
 {
 	populate_books();
 	populate_users();
+}
+
+string DB::dump_db()
+{
+	return xml.dump();
 }

@@ -40,7 +40,7 @@
 
 					<message>
 						added felan
-					</message
+					</message>
 				 </log>
 			</ActivityLogs>
 			

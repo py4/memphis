@@ -13,6 +13,8 @@ string get_shelf_name(string);
 bool is_tag(string);
 bool is_closing_tag(string);
 string get_tag_name(string);
+
+string get_depth_tabs(int);
 map <string,string> get_attributes(string);
 
 

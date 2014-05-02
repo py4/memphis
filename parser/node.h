@@ -4,6 +4,7 @@
 #include <string>
 #include <map>
 #include <vector>
+#include "parser.h"
 
 using namespace std;
 class Node
@@ -11,10 +12,10 @@ class Node
 	friend class XML;
 	friend class DB;
 public:
-	Node();
-	Node(string, string = "");
+Node() : depth(0) {}
+	Node(string, string = "", int = 0);
 	void add_node(Node*);
-	void add_node(string, string = "");
+	void add_node(string, string = "", int = 0);
 	string operator[](string);
   vector<Node*>& get_children();
 	Node* get_parent();
@@ -24,11 +25,13 @@ public:
 	string dump();
 	
 	Node* get_child_node(string);
+
 private:
 	string name;
 	map <string,string> attributes;
 	vector <Node*> children;
 	Node* parent;
 	string value;
+	int depth;
 };
 #endif

@@ -2,10 +2,11 @@
 #include <iostream>
 using namespace std;
 
-Node::Node(string name, string value)
+Node::Node(string name, string value, int depth)
 {
 	this->name = name;
 	this->value = value;
+	this->depth = depth;
 }
 
 void Node::add_node(Node* node)
@@ -13,9 +14,9 @@ void Node::add_node(Node* node)
 	children.push_back(node);
 }
 
-void Node::add_node(string name, string value)
+void Node::add_node(string name, string value, int depth)
 {
-	children.push_back(new Node(name,value));
+	children.push_back(new Node(name,value,depth));
 }
 
 string Node::operator[](string attribute)
@@ -53,6 +54,7 @@ void Node::set_value(string value)
 string Node::dump()
 {
 	string result = "";
+	result += get_depth_tabs(depth);
 	result += "<" + name;
 	map<string,string>::iterator i;
 	for(i = attributes.begin(); i != attributes.end(); i++)
@@ -67,9 +69,11 @@ string Node::dump()
 	result += "\n";
 	if(value.length() > 0)
 	{
+		result += get_depth_tabs(depth+1);
 		result += value;
 		result += '\n';
 	}
+	result += get_depth_tabs(depth);
 	result += "</" + name + ">";
 	return result;
 }

@@ -140,4 +140,14 @@ map<string,string> get_attributes(string line)
 	return result;
 }
 
+string get_depth_tabs(int depth)
+{
+	string result = "";
+	for(int i = 0; i < depth; i++)
+		result += '\t';
+	return result;
+}
+
+
+
 
