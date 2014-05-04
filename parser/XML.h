@@ -12,12 +12,14 @@ class XML
 public:
 	XML();
 	~XML();
-	void load(std::string);
+	bool load(std::string);
 	void parse();
 	string dump();
 
 	Node* operator[](string);
 	Node* get_node(string);
+
+	void save_to_disk(string);
 private:
 	std::ifstream raw_data;
 	Node* root_node;

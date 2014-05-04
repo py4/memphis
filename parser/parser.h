@@ -17,6 +17,15 @@ string get_tag_name(string);
 string get_depth_tabs(int);
 map <string,string> get_attributes(string);
 
+string get_command_name(string);
+
+map <string,string> get_sign_up_params(string);
+
+void set_params(map<string,string>&,string);
+void set_login_params(map<string,string>&,string);
+
+
+
 
 void trim(string&);
 #endif

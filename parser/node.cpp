@@ -9,16 +9,18 @@ Node::Node(string name, string value, int depth)
 	this->depth = depth;
 }
 
-void Node::add_node(Node* node)
+Node* Node::add_node(Node* node)
 {
 	children.push_back(node);
+	return node;
 }
 
-void Node::add_node(string name, string value, int depth)
+Node* Node::add_node(string name, string value, int depth)
 {
 	Node* new_node = new Node(name,value,this->depth+1);
 	new_node->parent = this;
 	children.push_back(new_node);
+	return new_node;
 }
 
 string Node::operator[](string attribute)
@@ -57,12 +59,16 @@ string Node::dump()
 {
 	string result = "";
 	result += get_depth_tabs(depth);
-	result += "<" + name;
-	map<string,string>::iterator i;
-	for(i = attributes.begin(); i != attributes.end(); i++)
-		result += " " + i->first + "=" + i->second;
 
-	result += ">";
+	if(name != "root")
+	{
+		result += "<" + name;
+		map<string,string>::iterator i;
+		for(i = attributes.begin(); i != attributes.end(); i++)
+			result += " " + i->first + "=" + "\"" + i->second + "\"";
+		result += ">";
+	}
+	
 	for(int i = 0; i < children.size(); i++)
 	{
 		result += "\n";
@@ -76,7 +82,10 @@ string Node::dump()
 		result += '\n';
 	}
 	result += get_depth_tabs(depth);
-	result += "</" + name + ">";
+	
+	if(name != "root")
+		result += "</" + name + ">";
+	
 	return result;
 }
 

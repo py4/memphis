@@ -1,6 +1,7 @@
 #include "parser.h"
 #include <sstream>
 #include <iostream>
+#include "../responder/responder.h"
 using namespace std;
 
 /* http://codereview.stackexchange.com/a/40158 */
@@ -124,7 +125,6 @@ map<string,string> get_attributes(string line)
 	}
 
 	string key,value;
-	
 	for(int i = 0; getline(in,temp,'='); i++)
 	{
 		if(i % 2 == 0)
@@ -136,7 +136,6 @@ map<string,string> get_attributes(string line)
 			result[key] = temp;
 		}
 	}
-
 	return result;
 }
 
@@ -146,6 +145,59 @@ string get_depth_tabs(int depth)
 	for(int i = 0; i < depth; i++)
 		result += '\t';
 	return result;
+}
+
+string get_command_name(string line)
+{
+	stringstream in(line);
+	string temp;
+	getline(in,temp,' ');
+	return temp;
+}
+
+map <string,string> get_sign_up_params(string line)
+{
+	stringstream in(line);
+	string temp, keys[] = {"username","password"};
+	map <string,string> result;
+	for(int i = 0; getline(in,temp,' '); i++)
+	{
+		if(i == 0)
+			continue;
+		if(i > 1)
+			RespondTo::Failure::bad_input();
+		else
+			result[keys[i]] = temp;
+	}
+	return result;
+}
+
+void set_login_params(map<string,string>& params, string command)
+{
+	stringstream in(command);
+	string temp;
+	for(int i = 0; getline(in,temp,' '); i++)
+	{
+		if(i > 2)
+			throw RespondTo::Failure::bad_input();
+		if(i == 1)
+			params["username"] = temp;
+		if(i == 2)
+			params["password"] = temp;
+	}
+}
+
+void set_params(map<string,string>& params, string command)
+{
+	params.clear();
+	stringstream in(command);
+	string temp;
+
+	getline(in,temp,' ');
+	params["command"] = temp;
+	
+	if(temp == "register")
+		set_login_params(params,command);
 }
 
 

@@ -1,0 +1,122 @@
+
+<users>
+	<user>
+		<username>
+			user1
+		</username>
+		<password>
+			password
+		</password>
+		<shelves>
+			<shelf name="default">
+				<book>
+					When Patty Went to College
+				</book>
+				<book>
+					Blindness
+				</book>
+			</shelf>
+			<shelf name="shelf1">
+			</shelf>
+			<shelf name="shelf2">
+			</shelf>
+		</shelves>
+		<friends>
+			<user>
+				user2
+			</user>
+		</friends>
+		<ActivityLogs>
+			<log>
+				<username>
+					user2
+				</username>
+				<message>
+					added felan
+				</message>
+			</log>
+		</ActivityLogs>
+		<favorites>
+			<book>
+				When Patty Went to College
+			</book>
+		</favorites>
+	</user>
+	<user>
+		<username>
+			user2
+		</username>
+		<password>
+			password
+		</password>
+		<shelves>
+			<shelf name="default">
+				<book>
+					Franny and Zooey
+				</book>
+				<book>
+					Little Women
+				</book>
+			</shelf>
+			<shelf name="shelf1">
+			</shelf>
+			<shelf name="shelf2">
+				Lady L
+			</shelf>
+		</shelves>
+		<friends>
+			<user>
+				user1
+			</user>
+		</friends>
+		<ActivityLogs>
+			<log>
+				<username>
+					user1
+				</username>
+				<message>
+					did felan to felan
+				</message>
+			</log>
+		</ActivityLogs>
+		<favorites>
+			<book>
+				Lady L
+			</book>
+		</favorites>
+	</user>
+	<user>
+		<username>
+			pooya
+		</username>
+		<password>
+			felan
+		</password>
+		<shelves>
+		</shelves>
+		<friends>
+		</friends>
+		<ActivityLogs>
+		</ActivityLogs>
+		<favorites>
+		</favorites>
+	</user>
+	<user>
+		<username>
+			pooya2
+		</username>
+		<password>
+			felan2
+		</password>
+		<shelves>
+		</shelves>
+		<friends>
+		</friends>
+		<ActivityLogs>
+		</ActivityLogs>
+		<favorites>
+		</favorites>
+	</user>
+</users>
+<books>
+</books>

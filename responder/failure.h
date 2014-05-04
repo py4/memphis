@@ -1,19 +1,19 @@
 #ifndef FAILURE_H_
 #define FAILURE_H_
 
-#include <iostream>
-using namespace std;
-
-void bad_input() { cout << "bad input format" << endl; }
-void in_use() { cout << "username is already in user. Try again." << endl; }
-void already_logged_in() { cout << "you are already logged in" << endl; }
-void wrong_credentials() { cout << "wrong username or password" << endl; }
-void book_not_found() { cout << "book not found" << endl; }
-void shelf_already_exists() { cout << "shelf already exists in your library" << endl; }
-void shelf_not_found() { cout << "shelf not found in your library" << endl; }
-void is_in_stared() { cout << "you've already starred this book" << endl; }
-void user_not_found() { cout << "user not found" << endl; }
-void are_already_friends() { cout << "you already follow him" << endl; }
+namespace Failure
+{
+	inline string bad_input() { return "bad input format"; }
+	inline string in_use() { return "username is already in user. Try again.";}
+	inline string already_logged_in() { return "you are already logged in"; }
+	inline string wrong_credentials() { return "wrong username or password"; }
+	inline string book_not_found() { return "book not found"; }
+	inline string shelf_already_exists() { return "shelf already exists in your library";}
+	inline string shelf_not_found() { return "shelf not found in your library"; }
+	inline string is_in_stared() { return "you've already starred this book"; }
+	inline string user_not_found() { return "user not found"; }
+	inline string are_already_friends() { return "you already follow him"; }
+}
 
 
 #endif

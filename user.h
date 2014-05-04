@@ -14,6 +14,7 @@ class User
 	friend class DB;
 	
 public:
+User(string u, string p) : username(u), password(p) {}
 	User();
 	~User();
 private:

@@ -1,9 +1,8 @@
 #ifndef DB_H_
 #define DB_H_
 
-#define DATABASE "database.txt"
-#define USERS "users.txt"
-#define DATA "data.txt"
+#define NEW_BOOKS "database/database.txt"
+#define DATA "database/data.txt"
 
 #include <vector>
 #include "parser/XML.h"
@@ -12,6 +11,7 @@ class Book;
 
 class DB
 {
+	friend class API;
 public:
 
 	static DB* db();
@@ -21,8 +21,12 @@ public:
 	User* find_user(string);
 	string dump_db();
 	static bool create_instance();
+	void load_new_books();
+
+	void save_to_disk(string = DATA);
 	
 private:
+	void create_schema();
 	void populate_books();
 	void populate_users();
 	void populate();	
@@ -31,6 +35,9 @@ private:
 	void configure_shelves(User*, vector<Node*>&);
 	void configure_activity_logs(User*, vector<Node*>&);
 	void configure_stared_books(User*, vector<Node*> &);
+
+	void add_book_to_xml(Book*);
+	void add_user(User*);
 
 	DB();
   DB(DB const&);

@@ -2,12 +2,16 @@
 #define API_H_
 
 #include "db.h"
+#include "responder/responder.h"
+#include <string>
 
 class API
 {
-	
+
 public:
-	void register(string,string);
+	void start();
+private:
+	void sign_up();
 	void login();
 	void add_book(string);
 	void show_book(string);
@@ -21,10 +25,10 @@ public:
 	void show_updates();
 	void update_database();
 	void logout();
-	
-private:
-	is_logged_in();
-	
+	void add_user_node(User*);
+
+	std::string command;
+	map<string,string> params;
 };
 
 #endif
