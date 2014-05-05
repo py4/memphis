@@ -90,23 +90,7 @@
 			pooya
 		</username>
 		<password>
-			felan
-		</password>
-		<shelves>
-		</shelves>
-		<friends>
-		</friends>
-		<ActivityLogs>
-		</ActivityLogs>
-		<favorites>
-		</favorites>
-	</user>
-	<user>
-		<username>
-			pooya2
-		</username>
-		<password>
-			felan2
+			pass
 		</password>
 		<shelves>
 		</shelves>

@@ -6,6 +6,8 @@
 class Book
 {
 	friend class DB;
+	friend class API;
+	friend class Shelf;
 public:
 	Book();
 	Book(std::map<std::string,std::string>&);

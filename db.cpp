@@ -6,13 +6,22 @@
 #include <iostream>
 #include <fstream>
 #include <map>
+#include "API.h"
 
 using namespace std;
 
 DB* DB::instance = 0;
 
+void DB::start_api()
+{
+	if(api == NULL)
+		api = new API;
+	api->start();
+}
 DB::DB()
 {
+	api = NULL;
+	
 	if(xml.load(DATA))
 	{
 		xml.parse();
@@ -61,6 +70,7 @@ DB::~DB()
 		delete users[i];
 	for(int i = 0; i < books.size(); i++)
 		delete books[i];
+	delete api;
 }
 
 /*void DB::populate_books()
@@ -112,9 +122,14 @@ void DB::configure_shelves(User* c_user, vector<Node*>& nodes)
 {
 	for(int j = 0; j < nodes.size();j++)
 	{
-		Shelf* shelf = c_user->library->add_shelf((*nodes[j])["name"]);
+		//Shelf* shelf = c_user->library->add_shelf((*nodes[j])["name"]);
+		
+		Shelf* shelf = c_user->library->add_shelf_from_xml(nodes[j]);
+		shelf->shelf_node = nodes[j];
+		
 		for(int k = 0; k < nodes[j]->children.size(); k++)
-			shelf->add_book(nodes[j]->children[k]->value);
+			shelf->add_book_from_xml(nodes[j]->children[k]);
+			//shelf->add_book(nodes[j]->children[k]->value);
 	}
 }
 
@@ -159,6 +174,8 @@ void DB::populate_users()
 		c_user = new User;
 		c_user->username = user_node->get_child_node("username")->value;
 		c_user->password = user_node->get_child_node("password")->value;
+		c_user->user_node = user_node;
+		c_user->library->shelves_node = user_node->get_child_node("shelves");
 		configure_shelves(c_user, user_node->get_child_node("shelves")->children);
 		configure_activity_logs(c_user, user_node->get_child_node("ActivityLogs")->children);
 		configure_stared_books(c_user, user_node->get_child_node("favorites")->children);
@@ -257,12 +274,21 @@ void DB::add_user(User* user)
 {
 	users.push_back(user);
 	Node* user_node = xml["users"]->add_node("user");
+	user->user_node = user_node;
+	
 	user_node->add_node("username",user->username);
 	user_node->add_node("password",user->password);
-	user_node->add_node("shelves");
+
+	Node* shelves_node = user_node->add_node("shelves");
+	user->library->shelves_node = shelves_node;
+	
 	user_node->add_node("friends");
 	user_node->add_node("ActivityLogs");
 	user_node->add_node("favorites");
+
+	Node* shelf_node = user_node->get_child_node("shelves")->add_node("shelf");
+	shelf_node->set_attribute("name","default");
+	
 	DB::db()->save_to_disk();
 }
 	

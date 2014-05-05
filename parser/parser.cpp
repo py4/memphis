@@ -155,35 +155,28 @@ string get_command_name(string line)
 	return temp;
 }
 
-map <string,string> get_sign_up_params(string line)
+// except book_name
+void set_hash_params(map<string,string>& params, string keys[], int count, string line)
 {
 	stringstream in(line);
-	string temp, keys[] = {"username","password"};
-	map <string,string> result;
-	for(int i = 0; getline(in,temp,' '); i++)
-	{
-		if(i == 0)
-			continue;
-		if(i > 1)
-			RespondTo::Failure::bad_input();
-		else
-			result[keys[i]] = temp;
-	}
-	return result;
-}
-
-void set_login_params(map<string,string>& params, string command)
-{
-	stringstream in(command);
 	string temp;
 	for(int i = 0; getline(in,temp,' '); i++)
 	{
-		if(i > 2)
-			throw RespondTo::Failure::bad_input();
-		if(i == 1)
-			params["username"] = temp;
-		if(i == 2)
-			params["password"] = temp;
+		if(i >= count)
+			throw RespondTo::Failure::bad_input();;
+		params[keys[i]] = temp;
+	}
+}
+
+void set_book_params(map<string,string>& params, string line)
+{
+	stringstream in(line);
+	string temp;
+	for(int i = 0; getline(in, temp, ' '); i++)
+	{
+		if(i == 0)
+			continue;
+		params["name"] += temp;
 	}
 }
 
@@ -195,9 +188,20 @@ void set_params(map<string,string>& params, string command)
 
 	getline(in,temp,' ');
 	params["command"] = temp;
-	
-	if(temp == "register")
-		set_login_params(params,command);
+	string keys[3];
+	keys[0] = "command";
+
+	if(temp == "register") {
+		keys[1] = "username"; keys[2] = "password";
+		set_hash_params(params,keys,3,command);
+	}
+	else if(temp == "login") {
+		keys[1] = "username"; keys[2] = "password";
+		set_hash_params(params,keys,3,command);
+	}
+	else if(temp == "add_book") {
+		set_book_params(params,command);
+	}
 }
 
 

@@ -7,8 +7,7 @@ using namespace std;
 int main()
 {
 	DB::create_instance();
-	API api;
-	api.start();
+	DB::db()->start_api();
 	DB::free_db();
 	return 0;
 }

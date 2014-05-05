@@ -8,6 +8,7 @@
 #include "parser/XML.h"
 class User;
 class Book;
+class API;
 
 class DB
 {
@@ -24,7 +25,7 @@ public:
 	void load_new_books();
 
 	void save_to_disk(string = DATA);
-	
+	void start_api();
 private:
 	void create_schema();
 	void populate_books();
@@ -48,8 +49,8 @@ private:
 	XML xml;
 	std::vector <User*> users;
 	std::vector <Book*> books;
-
-	User* current_user;
+	
+	API* api;
 };
 
 #endif

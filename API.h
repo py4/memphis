@@ -10,10 +10,11 @@ class API
 
 public:
 	void start();
+
 private:
 	void sign_up();
-	void login();
-	void add_book(string);
+	void sign_in();
+	void add_book();
 	void show_book(string);
 	void add_shelf(string);
 	void add_to_shelf(string,string);
@@ -29,6 +30,12 @@ private:
 
 	std::string command;
 	map<string,string> params;
+
+	//helpers...
+	void ensure_user();
+	void ensure_no_user();
+
+	User* current_user;
 };
 
 #endif
