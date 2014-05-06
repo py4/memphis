@@ -9,6 +9,7 @@ class API
 {
 
 public:
+	API();
 	void start();
 
 private:

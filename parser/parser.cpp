@@ -176,7 +176,10 @@ void set_book_params(map<string,string>& params, string line)
 	{
 		if(i == 0)
 			continue;
+		if(i != 1)
+			params["name"] += " ";
 		params["name"] += temp;
+		
 	}
 }
 

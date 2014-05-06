@@ -50,7 +50,9 @@ void Shelf::add_book_from_xml(Node* book_node)
 bool Shelf::has_book(string book_name)
 {
 	for(int i = 0; i < books.size(); i++)
+	{
 		if(books[i]->name == book_name)
 			return true;
+	}
 	return false;
 }

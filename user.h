@@ -15,7 +15,7 @@ class User
 	friend class DB;
 	friend class API;
 public:
-User(string u, string p) : username(u), password(p) {}
+	User(string, string);
 	User();
 	~User();
 	

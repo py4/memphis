@@ -280,6 +280,7 @@ void DB::add_user(User* user)
 	user_node->add_node("password",user->password);
 
 	Node* shelves_node = user_node->add_node("shelves");
+	cerr << "library:  " << user->library << endl;
 	user->library->shelves_node = shelves_node;
 	
 	user_node->add_node("friends");
@@ -289,6 +290,6 @@ void DB::add_user(User* user)
 	Node* shelf_node = user_node->get_child_node("shelves")->add_node("shelf");
 	shelf_node->set_attribute("name","default");
 	
-	DB::db()->save_to_disk();
+	//DB::db()->save_to_disk();
 }
 	

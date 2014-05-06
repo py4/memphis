@@ -5,6 +5,11 @@
 
 using namespace std;
 
+API::API()
+{
+	current_user = NULL;
+}
+
 void API::start()
 {
 	string command_name;
@@ -27,8 +32,16 @@ void API::start()
 				sign_in();
 			if(params["command"] == "add_book")
 				add_book();
+			if(params["command"] == "dump")
+					cout << DB::db()->dump_db() << endl;
+			if(params["command"] == "update_database") //TODO: permission checking
+				DB::db()->load_new_books();
+			
 			if(params["command"] == "quit")
+			{
+				DB::db()->save_to_disk();
 				break;
+			}
 			
 		} catch (string error) {
 			cerr << error << endl;
@@ -46,6 +59,7 @@ void API::sign_up()
 		throw RespondTo::Failure::in_use();
 	
 	user = new User(params["username"], params["password"]);
+	cerr << "user:  " << user << endl;
 	DB::db()->add_user(user);
 	current_user = user;
 
@@ -71,6 +85,7 @@ void API::add_book()
 {
 	ensure_user();
 
+	cerr << "book_name:  " << params["name"] << endl;
 	Book* book = DB::db()->find_book(params["name"]);
 	if(book == NULL)
 		throw RespondTo::Failure::book_not_found();
@@ -91,6 +106,7 @@ void API::ensure_user()
 
 void API::ensure_no_user()
 {
+	cerr << "fucking current_user:  " << current_user << endl;
 	if(current_user != NULL)
 		throw RespondTo::Failure::already_logged_in();
 }

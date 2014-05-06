@@ -6,6 +6,13 @@ User::User()
 	library = new Library;
 }
 
+User::User(string u, string p)
+{
+	library = new Library;
+	username = u;
+	password = p;
+}
+
 User::~User()
 {
 	delete library;

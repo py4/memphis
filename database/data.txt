@@ -90,9 +90,14 @@
 			pooya
 		</username>
 		<password>
-			pass
+			felan1
 		</password>
 		<shelves>
+			<shelf name="default">
+				<book>
+					Lady L
+				</book>
+			</shelf>
 		</shelves>
 		<friends>
 		</friends>
@@ -103,4 +108,88 @@
 	</user>
 </users>
 <books>
+	<book>
+		<name>
+			When Patty Went to College
+		</name>
+		<publisher>
+			The Century Co
+		</publisher>
+		<author>
+			Jean Webster
+		</author>
+		<year>
+			1903
+		</year>
+	</book>
+	<book>
+		<name>
+			Blindness
+		</name>
+		<publisher>
+			Mariner Books
+		</publisher>
+		<author>
+			Jose Saramago
+		</author>
+		<year>
+			1995
+		</year>
+	</book>
+	<book>
+		<name>
+			Lady L
+		</name>
+		<publisher>
+			Simon & Schuster
+		</publisher>
+		<author>
+			Romain Gary
+		</author>
+		<year>
+			1957
+		</year>
+	</book>
+	<book>
+		<name>
+			The Catcher in the Rye
+		</name>
+		<publisher>
+			Back Bay Books
+		</publisher>
+		<author>
+			J.D. Salinger
+		</author>
+		<year>
+			1951
+		</year>
+	</book>
+	<book>
+		<name>
+			Franny and Zooey
+		</name>
+		<publisher>
+			Little, Brown and Company
+		</publisher>
+		<author>
+			J.D. Salinger
+		</author>
+		<year>
+			1955
+		</year>
+	</book>
+	<book>
+		<name>
+			Little Women
+		</name>
+		<publisher>
+			Signet Classics
+		</publisher>
+		<author>
+			Louisa May Alcott
+		</author>
+		<year>
+			1868
+		</year>
+	</book>
 </books>
