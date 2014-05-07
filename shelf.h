@@ -21,6 +21,7 @@ public:
 	void add_book(Book*);
 	void add_book_from_xml(Node*);
 	bool has_book(std::string);
+	bool has_book(Book*);
 private:
 	vector <Book*> books;
 	std::string name;

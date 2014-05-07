@@ -23,3 +23,16 @@ User::~User()
 	stared_books.clear();
 	friends.clear();
 }
+
+bool User::is_in_starred(Book* book)
+{
+	for(int i = 0; i < stared_books.size(); i++)
+		if(stared_books[i] == book)
+			return true;
+	return false;
+}
+
+bool User::is_in_library(Book* book)
+{
+	return library->is_in_library(book);
+}

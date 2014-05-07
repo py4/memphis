@@ -11,6 +11,7 @@ class Book
 public:
 	Book();
 	Book(std::map<std::string,std::string>&);
+	void show_info();
 private:
 	std::string name;
 	std::string author;

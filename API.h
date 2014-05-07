@@ -16,9 +16,9 @@ private:
 	void sign_up();
 	void sign_in();
 	void add_book();
-	void show_book(string);
-	void add_shelf(string);
-	void add_to_shelf(string,string);
+	void show_book();
+	void add_shelf();
+	void add_to_shelf();
 	void like(string);
 	void show_books(string);
 	void show_all_books();

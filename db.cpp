@@ -23,23 +23,20 @@ DB::DB()
 	api = NULL;
 	
 	if(xml.load(DATA))
-	{
 		xml.parse();
-		if(xml["books"] == NULL)
-		{
-			cerr << "there is no books tag in the xml..." << endl;
-			xml["root"]->add_node("books");
-			cerr << "added the books tag to the xml..." << endl;
-		}
-		if(xml["users"] == NULL)
-		{
-			cerr << "there is no users tag in the xml..." << endl;
-			xml["root"]->add_node("users");
-			cerr << "added the users tag to the xml..." << endl;
-		}
+	
+	if(xml["books"] == NULL)
+	{
+		cerr << "there is no books tag in the xml..." << endl;
+		xml["root"]->add_node("books");
+		cerr << "added the books tag to the xml..." << endl;
 	}
-	else
-		cerr << "data not found..." << endl;
+	if(xml["users"] == NULL)
+	{
+		cerr << "there is no users tag in the xml..." << endl;
+		xml["root"]->add_node("users");
+		cerr << "added the users tag to the xml..." << endl;
+	}
 }
 
 DB* DB::db()
@@ -204,7 +201,7 @@ void DB::populate_books()
 	map<string,string> info;
 	if(xml["books"] == NULL)
 	{
-		cerr << "bug2" << endl;
+		cerr << "no db history found" << endl;
 		return;
 	}
 	for(int i = 0; i < xml["books"]->children.size(); i++)
@@ -280,7 +277,6 @@ void DB::add_user(User* user)
 	user_node->add_node("password",user->password);
 
 	Node* shelves_node = user_node->add_node("shelves");
-	cerr << "library:  " << user->library << endl;
 	user->library->shelves_node = shelves_node;
 	
 	user_node->add_node("friends");

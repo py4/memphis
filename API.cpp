@@ -2,6 +2,7 @@
 #include "user.h"
 #include "library.h"
 #include "book.h"
+#include "shelf.h"
 
 using namespace std;
 
@@ -33,9 +34,19 @@ void API::start()
 			if(params["command"] == "add_book")
 				add_book();
 			if(params["command"] == "dump")
-					cout << DB::db()->dump_db() << endl;
+				cout << DB::db()->dump_db() << endl;
+			if(params["command"] == "show_book")
+				show_book();
+			if(params["command"] == "add_shelf")
+				add_shelf();
+			if(params["command"] == "add_to_shelf")
+				add_to_shelf();
+			
 			if(params["command"] == "update_database") //TODO: permission checking
+			{
 				DB::db()->load_new_books();
+				cout << RespondTo::Success::updated() << endl;
+			}
 			
 			if(params["command"] == "quit")
 			{
@@ -59,7 +70,6 @@ void API::sign_up()
 		throw RespondTo::Failure::in_use();
 	
 	user = new User(params["username"], params["password"]);
-	cerr << "user:  " << user << endl;
 	DB::db()->add_user(user);
 	current_user = user;
 
@@ -84,8 +94,7 @@ void API::sign_in()
 void API::add_book()
 {
 	ensure_user();
-
-	cerr << "book_name:  " << params["name"] << endl;
+	
 	Book* book = DB::db()->find_book(params["name"]);
 	if(book == NULL)
 		throw RespondTo::Failure::book_not_found();
@@ -98,6 +107,52 @@ void API::add_book()
 	}
 }
 
+void API::show_book()
+{
+	ensure_user();
+
+	Book* book = DB::db()->find_book(params["name"]);
+	if(book == NULL)
+		throw RespondTo::Failure::book_not_found();
+
+	book->show_info();
+	if(current_user->is_in_starred(book))
+		cout << "you've starred it" << endl;
+	if(current_user->is_in_library(book))
+		cout << "it's in your library" << endl;
+}
+
+void API::add_shelf()
+{
+	ensure_user();
+	Shelf* found_shelf = current_user->library->get_shelf(params["shelf_name"]);
+	if(found_shelf != NULL)
+		throw RespondTo::Failure::shelf_already_exists();
+
+	current_user->library->add_shelf(params["shelf_name"]);
+	cout << RespondTo::Success::shelf_added() << endl;
+}
+
+//TODO: factoriing ensure_user()
+void API::add_to_shelf()
+{
+	ensure_user();
+	Shelf* found_shelf = current_user->library->get_shelf(params["shelf_name"]);
+	string book_name = params["book_name"];
+	
+	if(found_shelf == NULL)
+		throw RespondTo::Failure::shelf_not_found();
+
+	if(!current_user->library->is_in_library(book_name))
+		throw RespondTo::Failure::book_not_in_library();
+	else if(found_shelf->has_book(book_name))
+		throw RespondTo::Failure::book_is_in_shelf();
+	else
+		found_shelf->add_book(book_name);
+
+	cout << RespondTo::Success::book_added_to_shelf() << endl;
+}
+
 void API::ensure_user()
 {
 	if(current_user == NULL)
@@ -106,7 +161,6 @@ void API::ensure_user()
 
 void API::ensure_no_user()
 {
-	cerr << "fucking current_user:  " << current_user << endl;
 	if(current_user != NULL)
 		throw RespondTo::Failure::already_logged_in();
 }

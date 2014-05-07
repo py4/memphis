@@ -18,7 +18,8 @@ public:
 	User(string, string);
 	User();
 	~User();
-	
+	bool is_in_starred(Book*);
+	bool is_in_library(Book*);
 private:
 	Library* library;
 	std::vector <User*> friends;

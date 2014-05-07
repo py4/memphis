@@ -179,7 +179,25 @@ void set_book_params(map<string,string>& params, string line)
 		if(i != 1)
 			params["name"] += " ";
 		params["name"] += temp;
-		
+	}
+}
+
+void set_add_to_shelf_params(map<string,string>& params,string line)
+{
+	stringstream in(line);
+	string temp;
+	for(int i = 0; getline(in, temp, ' '); i++)
+	{
+		if(i == 0)
+			continue;
+		else if(i == 1)
+			params["shelf_name"] = temp;
+		else if(i > 1)
+		{
+			if(i != 2)
+				params["book_name"] += " ";
+			params["book_name"] += temp;
+		}
 	}
 }
 
@@ -201,9 +219,13 @@ void set_params(map<string,string>& params, string command)
 	else if(temp == "login") {
 		keys[1] = "username"; keys[2] = "password";
 		set_hash_params(params,keys,3,command);
-	}
-	else if(temp == "add_book") {
+	} else if(temp == "add_book" or temp == "show_book") {
 		set_book_params(params,command);
+	} else if(temp == "add_shelf") {
+		keys[1] = "shelf_name";
+		set_hash_params(params,keys,2,command);
+	} else if(temp == "add_to_shelf") {
+		set_add_to_shelf_params(params,command);
 	}
 }
 

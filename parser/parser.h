@@ -24,6 +24,7 @@ map <string,string> get_sign_up_params(string);
 void set_params(map<string,string>&,string);
 void set_hash_params(map<string,string>&, string [], int, string);
 void set_book_params(map<string,string>&,string);
+void set_add_to_shelf_params(map<string,string>&, string);
 //void set_login_params(map<string,string>&,string);
 
 

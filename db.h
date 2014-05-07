@@ -16,17 +16,16 @@ class DB
 public:
 
 	static DB* db();
-	static void free_db();
 	
 	Book* find_book(string);
 	User* find_user(string);
 	string dump_db();
 	static bool create_instance();
-	void load_new_books();
-
-	void save_to_disk(string = DATA);
 	void start_api();
+	static void free_db();
 private:
+	void save_to_disk(string = DATA);
+	void load_new_books();
 	void create_schema();
 	void populate_books();
 	void populate_users();

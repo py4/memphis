@@ -2,6 +2,8 @@
 #include "shelf.h"
 #include <string>
 #include <iostream>
+#include "book.h"
+
 using namespace std;
 
 Library::~Library()
@@ -59,4 +61,26 @@ bool Library::add_book(string book_name, string shelf_name)
 	}
 }
 
+bool Library::is_in_library(Book* book)
+{
+	for(int i = 0;i < shelves.size(); i++)
+		if(shelves[i]->has_book(book))
+			return true;
+	return false;
+}
 
+bool Library::is_in_library(string name)
+{
+	for(int i = 0;i < shelves.size(); i++)
+		if(shelves[i]->has_book(name))
+			return true;
+	return false;
+}
+
+Shelf* Library::get_shelf(string name)
+{
+	for(int i = 0; i < shelves.size(); i++)
+		if(shelves[i]->name == name)
+			return shelves[i];
+	return NULL;
+}

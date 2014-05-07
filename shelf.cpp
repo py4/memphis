@@ -56,3 +56,11 @@ bool Shelf::has_book(string book_name)
 	}
 	return false;
 }
+
+bool Shelf::has_book(Book* book)
+{
+	for(int i = 0; i < books.size(); i++)
+		if(books[i] == book)
+			return true;
+	return false;
+}
