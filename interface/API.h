@@ -1,8 +1,8 @@
 #ifndef API_H_
 #define API_H_
 
-#include "db.h"
-#include "responder/responder.h"
+#include "../libs/db.h"
+#include "../responder/responder.h"
 #include <string>
 
 class API

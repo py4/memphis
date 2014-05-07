@@ -1,11 +1,11 @@
 #ifndef DB_H_
 #define DB_H_
 
-#define NEW_BOOKS "database/database.txt"
-#define DATA "database/data.txt"
+#define NEW_BOOKS "../database/database.txt"
+#define DATA "../database/data.txt"
 
 #include <vector>
-#include "parser/XML.h"
+#include "../parser/XML.h"
 class User;
 class Book;
 class API;

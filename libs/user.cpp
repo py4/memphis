@@ -1,6 +1,6 @@
 #include "user.h"
 #include "library.h"
-#include "parser/node.h"
+#include "../parser/node.h"
 #include <iostream>
 using namespace std;
 User::User()

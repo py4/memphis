@@ -1,7 +1,7 @@
 #include <iostream>
-#include "db.h"
+#include "libs/db.h"
 #include "parser/XML.h"
-#include "API.h"
+#include "interface/API.h"
 using namespace std;
 
 int main()

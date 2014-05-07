@@ -6,7 +6,7 @@
 #include <iostream>
 #include <fstream>
 #include <map>
-#include "API.h"
+#include "../interface/API.h"
 
 using namespace std;
 
@@ -63,9 +63,9 @@ void DB::free_db()
 DB::~DB()
 {
 	cerr << "database destructor" << endl;
-	for(int i = 0; i < users.size(); i++)
+	for(unsigned int i = 0; i < users.size(); i++)
 		delete users[i];
-	for(int i = 0; i < books.size(); i++)
+	for(unsigned int i = 0; i < books.size(); i++)
 		delete books[i];
 	delete api;
 }
@@ -87,7 +87,7 @@ DB::~DB()
 
 Book* DB::find_book(string name)
 {
-	for(int i = 0; i < books.size(); i++)
+	for(unsigned int i = 0; i < books.size(); i++)
 	{
 		if(books[i]->name == name)
 			return books[i];
@@ -97,7 +97,7 @@ Book* DB::find_book(string name)
 
 User* DB::find_user(string username)
 {
-	for(int i = 0; i < users.size(); i++)
+	for(unsigned int i = 0; i < users.size(); i++)
 		if(users[i]->username == username)
 			return users[i];
 	return NULL;
@@ -113,25 +113,27 @@ Book* DB::find_or_create_book(string name)
 	map<string,string> book_info;
 	book_info["name"] = name;
 	books.push_back(new Book(book_info));
+
+	return books.back();
 }
 
 void DB::configure_shelves(User* c_user, vector<Node*>& nodes)
 {
-	for(int j = 0; j < nodes.size();j++)
+	for(unsigned int j = 0; j < nodes.size();j++)
 	{
 		
 		Shelf* shelf = c_user->library->add_shelf_from_xml(nodes[j]);
 		shelf->library = c_user->library;
 		shelf->shelf_node = nodes[j];
 		
-		for(int k = 0; k < nodes[j]->children.size(); k++)
+		for(unsigned int k = 0; k < nodes[j]->children.size(); k++)
 			shelf->add_book_from_xml(nodes[j]->children[k]);
 	}
 }
 
 void DB::configure_activity_logs(User* c_user, vector<Node*>& nodes)
 {
-	for(int j = 0; j < nodes.size(); j++)
+	for(unsigned int j = 0; j < nodes.size(); j++)
 	{
 		string name = nodes[j]->get_child_node("username")->value;
 		string message = nodes[j]->get_child_node("message")->value;
@@ -141,7 +143,7 @@ void DB::configure_activity_logs(User* c_user, vector<Node*>& nodes)
 
 void DB::configure_stared_books(User* c_user, vector<Node*>& nodes)
 {
-	for(int j = 0; j < nodes.size(); j++)
+	for(unsigned int j = 0; j < nodes.size(); j++)
 	{
 		Book* book = find_book(nodes[j]->value);
 		if(book != NULL)
@@ -164,7 +166,7 @@ void DB::populate_users()
 
 	map <string, vector <string> > followings;
 	map <string, vector <string> > followers;
-	for(int i = 0; i < xml["users"]->children.size();i++)
+	for(unsigned int i = 0; i < xml["users"]->children.size();i++)
 	{
 		Node* user_node = xml["users"]->children[i];
 		c_user = new User;
@@ -185,7 +187,7 @@ void DB::populate_users()
 
 		vector<Node*>::iterator it = c_user->followings_node->children.begin();
 		vector<Node*>::iterator end = c_user->followings_node->children.end();
-		for(it; it != end; it++)
+		for(; it != end; it++)
 		{
 			User* user_following = find_user((*it)->value);
 			c_user->followings.push_back(user_following); // if it is NULL then we have a bug
@@ -193,7 +195,7 @@ void DB::populate_users()
 
 		it = c_user->followers_node->children.begin();
 		end = c_user->followers_node->children.end();
-		for(it; it != end; it++)
+		for(; it != end; it++)
 		{
 			User* user_follower = find_user((*it)->value);
 			c_user->followers.push_back(user_follower);
@@ -210,7 +212,7 @@ void DB::populate_books()
 		cerr << "no db history found" << endl;
 		return;
 	}
-	for(int i = 0; i < xml["books"]->children.size(); i++)
+	for(unsigned int i = 0; i < xml["books"]->children.size(); i++)
 	{
 		Node* book_node = xml["books"]->children[i];
 		info["name"] = book_node->get_child_node("name")->value;

@@ -1,9 +1,9 @@
 #include "API.h"
-#include "user.h"
-#include "library.h"
-#include "book.h"
-#include "shelf.h"
-#include "logger/logger.h"
+#include "../libs/user.h"
+#include "../libs/library.h"
+#include "../libs/book.h"
+#include "../libs/shelf.h"
+#include "../logger/logger.h"
 
 using namespace std;
 
