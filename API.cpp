@@ -41,6 +41,8 @@ void API::start()
 				add_shelf();
 			if(params["command"] == "add_to_shelf")
 				add_to_shelf();
+			if(params["command"] == "like")
+				like();
 			
 			if(params["command"] == "update_database") //TODO: permission checking
 			{
@@ -116,7 +118,7 @@ void API::show_book()
 		throw RespondTo::Failure::book_not_found();
 
 	book->show_info();
-	if(current_user->is_in_starred(book))
+	if(current_user->library->is_in_starred(book))
 		cout << "you've starred it" << endl;
 	if(current_user->is_in_library(book))
 		cout << "it's in your library" << endl;
@@ -151,6 +153,18 @@ void API::add_to_shelf()
 		found_shelf->add_book(book_name);
 
 	cout << RespondTo::Success::book_added_to_shelf() << endl;
+}
+
+void API::like()
+{
+	Book* found_book = current_user->library->find_book(params["name"]);
+	if(found_book == NULL)
+		throw RespondTo::Failure::book_not_in_library();
+	if(current_user->library->is_in_starred(found_book))
+		throw RespondTo::Failure::is_in_stared();
+	
+	current_user->library->star_book(found_book);
+	cout << RespondTo::Success::liked() << endl;
 }
 
 void API::ensure_user()

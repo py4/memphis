@@ -21,8 +21,13 @@ public:
 	bool add_book(std::string,std::string = "default");
 	bool is_in_library(Book*);
 	bool is_in_library(std::string);
+	bool is_in_starred(Book*);
+	Book* find_book(std::string);
+	void star_book(Book*);
 private:
 	std::vector <Shelf*> shelves;
+	std::vector <Book*> stared_books;
 	Node* shelves_node;
+	Node* stared_node;
 };
 #endif

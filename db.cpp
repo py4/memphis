@@ -146,7 +146,7 @@ void DB::configure_stared_books(User* c_user, vector<Node*>& nodes)
 	{
 		Book* book = find_book(nodes[j]->value);
 		if(book != NULL)
-			c_user->stared_books.push_back(book);
+			c_user->library->stared_books.push_back(book);
 		else
 			cerr << "[db][populate_users] book not found" << endl;
 	}
@@ -171,8 +171,13 @@ void DB::populate_users()
 		c_user = new User;
 		c_user->username = user_node->get_child_node("username")->value;
 		c_user->password = user_node->get_child_node("password")->value;
+
 		c_user->user_node = user_node;
+		c_user->logs_node = user_node->get_child_node("Activitylogs");
+		c_user->friends_node = user_node->get_child_node("friends");
 		c_user->library->shelves_node = user_node->get_child_node("shelves");
+		c_user->library->stared_node = user_node->get_child_node("favorites");
+
 		configure_shelves(c_user, user_node->get_child_node("shelves")->children);
 		configure_activity_logs(c_user, user_node->get_child_node("ActivityLogs")->children);
 		configure_stared_books(c_user, user_node->get_child_node("favorites")->children);
@@ -279,9 +284,13 @@ void DB::add_user(User* user)
 	Node* shelves_node = user_node->add_node("shelves");
 	user->library->shelves_node = shelves_node;
 	
-	user_node->add_node("friends");
-	user_node->add_node("ActivityLogs");
-	user_node->add_node("favorites");
+	Node* friends_node = user_node->add_node("friends");
+	Node* logs_node = user_node->add_node("ActivityLogs");
+	Node* stared_node = user_node->add_node("favorites");
+
+	user->friends_node = friends_node;
+	user->logs_node = logs_node;
+	user->library->stared_node = stared_node;
 
 	Node* shelf_node = user_node->get_child_node("shelves")->add_node("shelf");
 	shelf_node->set_attribute("name","default");

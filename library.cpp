@@ -12,7 +12,7 @@ Library::~Library()
 	
 	for(int i = 0; i < shelves.size(); i++)
 		delete shelves[i];
-
+	stared_books.clear();
 	shelves.clear();
 }
 
@@ -77,10 +77,33 @@ bool Library::is_in_library(string name)
 	return false;
 }
 
+bool Library::is_in_starred(Book* book)
+{
+	for(int i = 0; i < stared_books.size(); i++)
+		if(stared_books[i] == book)
+			return true;
+	return false;
+}
+
 Shelf* Library::get_shelf(string name)
 {
 	for(int i = 0; i < shelves.size(); i++)
 		if(shelves[i]->name == name)
 			return shelves[i];
 	return NULL;
+}
+
+Book* Library::find_book(string name)
+{
+	Book* book = NULL;
+	for(int i = 0; i < shelves.size(); i++)
+		if((book = shelves[i]->find_book(name)) != NULL)
+			return book;
+	return book;
+}
+
+void Library::star_book(Book* book)
+{
+	stared_books.push_back(book);
+	stared_node->add_node("book",book->name);
 }

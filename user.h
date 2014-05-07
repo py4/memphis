@@ -18,18 +18,20 @@ public:
 	User(string, string);
 	User();
 	~User();
-	bool is_in_starred(Book*);
 	bool is_in_library(Book*);
+	void like_book(Book*);
+	
 private:
 	Library* library;
 	std::vector <User*> friends;
-	std::vector <Book*> stared_books;
 	std::vector <Log*>  activity_logs;
-
+	
 	std::string username;
 	std::string password;
 
 	Node* user_node;
+	Node* friends_node;
+	Node* logs_node;
 };
 
 #endif

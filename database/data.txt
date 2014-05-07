@@ -98,10 +98,16 @@
 				<book>
 					Little Women
 				</book>
+				<book>
+					Blindness
+				</book>
 			</shelf>
 			<shelf name="romance">
 				<book>
 					Little Women
+				</book>
+				<book>
+					Blindness
 				</book>
 			</shelf>
 		</shelves>
@@ -110,6 +116,9 @@
 		<ActivityLogs>
 		</ActivityLogs>
 		<favorites>
+			<book>
+				Blindness
+			</book>
 		</favorites>
 	</user>
 </users>

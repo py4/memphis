@@ -19,7 +19,7 @@ private:
 	void show_book();
 	void add_shelf();
 	void add_to_shelf();
-	void like(string);
+	void like();
 	void show_books(string);
 	void show_all_books();
 	void show_favorites();

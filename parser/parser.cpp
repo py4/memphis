@@ -219,7 +219,7 @@ void set_params(map<string,string>& params, string command)
 	else if(temp == "login") {
 		keys[1] = "username"; keys[2] = "password";
 		set_hash_params(params,keys,3,command);
-	} else if(temp == "add_book" or temp == "show_book") {
+	} else if(temp == "add_book" or temp == "show_book" or temp == "like") {
 		set_book_params(params,command);
 	} else if(temp == "add_shelf") {
 		keys[1] = "shelf_name";
