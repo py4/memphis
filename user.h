@@ -25,6 +25,7 @@ private:
 	void like_book(Book*);
 	void follow(User*);
 	void add_log(std::string);
+	void show_logs();
 	Library* library;
 	std::vector <User*> followings;
 	std::vector <User*> followers;

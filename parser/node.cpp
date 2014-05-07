@@ -102,6 +102,16 @@ Node* Node::get_child_node(string name)
 	return NULL;
 }
 
+void Node::delete_children()
+{
+	while(!children.empty())
+	{
+		children.back()->delete_children();
+		delete children.back();
+		children.pop_back();
+	}
+}
+
 
 
 

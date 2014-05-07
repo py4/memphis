@@ -66,4 +66,12 @@ void User::add_log(string message)
 		log_node->add_node("message",message);
 	}
 }
+
+void User::show_logs()
+{
+	for(int i = 0; i < activity_logs.size(); i++)
+		cout << activity_logs[i]->username << " " << activity_logs[i]->message << endl;
+	activity_logs.clear();
+	logs_node->delete_children();
+}
 	

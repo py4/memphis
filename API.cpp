@@ -58,6 +58,8 @@ void API::start()
 				show_favorites();
 			else if(params["command"] == "follow")
 				follow();
+			else if(params["command"] == "show_updates")
+				show_updates();
 			else if(params["command"] == "update_database") //TODO: permission checking
 			{
 				DB::db()->load_new_books();
@@ -217,6 +219,7 @@ void API::show_favorites()
 
 void API::follow()
 {
+	ensure_user();
 	User* user = DB::db()->find_user(params["username"]);
 	if(user == NULL)
 		throw RespondTo::Failure::user_not_found();
@@ -224,6 +227,12 @@ void API::follow()
 		throw RespondTo::Failure::already_following();
 	current_user->follow(user);
 	cout << RespondTo::Success::followed() << endl;
+}
+
+void API::show_updates()
+{
+	ensure_user();
+	current_user->show_logs();
 }
 
 void API::ensure_user()

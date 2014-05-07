@@ -27,7 +27,7 @@ Node() : depth(0) {}
 	Node* get_child_node(string);
 
 	string get_value() { return value; }
-
+	void delete_children();
 private:
 	string name;
 	map <string,string> attributes;

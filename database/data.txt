@@ -107,30 +107,6 @@
 		<followers>
 		</followers>
 		<ActivityLogs>
-			<log>
-				<username>
-					poorya
-				</username>
-				<message>
-					added Little Women to his library
-				</message>
-			</log>
-			<log>
-				<username>
-					poorya
-				</username>
-				<message>
-					added Little Women to romance
-				</message>
-			</log>
-			<log>
-				<username>
-					poorya
-				</username>
-				<message>
-					liked Little Women
-				</message>
-			</log>
 		</ActivityLogs>
 		<favorites>
 		</favorites>
@@ -144,6 +120,9 @@
 		</password>
 		<shelves>
 			<shelf name="default">
+				<book>
+					Lady L
+				</book>
 			</shelf>
 			<shelf name="default">
 				<book>
