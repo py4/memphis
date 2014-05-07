@@ -16,7 +16,7 @@ namespace Failure
 	inline string book_is_in_shelf() { return "the book is already in the shelf"; }
 	inline string is_in_stared() { return "you've already starred this book"; }
 	inline string user_not_found() { return "user not found"; }
-	inline string are_already_friends() { return "you already follow him"; }
+	inline string already_following() { return "you already follow him"; }
 }
 
 

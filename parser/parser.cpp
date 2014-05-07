@@ -221,11 +221,14 @@ void set_params(map<string,string>& params, string command)
 		set_hash_params(params,keys,3,command);
 	} else if(temp == "add_book" or temp == "show_book" or temp == "like") {
 		set_book_params(params,command);
-	} else if(temp == "add_shelf") {
+	} else if(temp == "add_shelf" or temp == "show_books") {
 		keys[1] = "shelf_name";
 		set_hash_params(params,keys,2,command);
 	} else if(temp == "add_to_shelf") {
 		set_add_to_shelf_params(params,command);
+	} else if(temp == "follow") {
+		keys[1] = "username";
+		set_hash_params(params,keys,2,command);
 	}
 }
 

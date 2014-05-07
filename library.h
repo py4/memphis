@@ -6,6 +6,7 @@
 class Shelf;
 class Node;
 class Book;
+class User;
 
 class Library
 {
@@ -24,10 +25,13 @@ public:
 	bool is_in_starred(Book*);
 	Book* find_book(std::string);
 	void star_book(Book*);
+	void show_favorites();
+	void show_all_books();
 private:
 	std::vector <Shelf*> shelves;
 	std::vector <Book*> stared_books;
 	Node* shelves_node;
 	Node* stared_node;
+	User* user;
 };
 #endif

@@ -107,3 +107,18 @@ void Library::star_book(Book* book)
 	stared_books.push_back(book);
 	stared_node->add_node("book",book->name);
 }
+
+void Library::show_all_books()
+{
+	Shelf* default_shelf = get_shelf("default");
+	default_shelf->show_books();
+}
+
+void Library::show_favorites()
+{
+	for(int i = 0; i < stared_books.size(); i++)
+	{
+		stared_books[i]->show_info();
+		cout << "---------------" << endl;
+	}
+}

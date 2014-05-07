@@ -119,14 +119,13 @@ void DB::configure_shelves(User* c_user, vector<Node*>& nodes)
 {
 	for(int j = 0; j < nodes.size();j++)
 	{
-		//Shelf* shelf = c_user->library->add_shelf((*nodes[j])["name"]);
 		
 		Shelf* shelf = c_user->library->add_shelf_from_xml(nodes[j]);
+		shelf->library = c_user->library;
 		shelf->shelf_node = nodes[j];
 		
 		for(int k = 0; k < nodes[j]->children.size(); k++)
 			shelf->add_book_from_xml(nodes[j]->children[k]);
-			//shelf->add_book(nodes[j]->children[k]->value);
 	}
 }
 
@@ -177,7 +176,8 @@ void DB::populate_users()
 		c_user->friends_node = user_node->get_child_node("friends");
 		c_user->library->shelves_node = user_node->get_child_node("shelves");
 		c_user->library->stared_node = user_node->get_child_node("favorites");
-
+		c_user->library->user = c_user;
+		
 		configure_shelves(c_user, user_node->get_child_node("shelves")->children);
 		configure_activity_logs(c_user, user_node->get_child_node("ActivityLogs")->children);
 		configure_stared_books(c_user, user_node->get_child_node("favorites")->children);
@@ -283,6 +283,7 @@ void DB::add_user(User* user)
 
 	Node* shelves_node = user_node->add_node("shelves");
 	user->library->shelves_node = shelves_node;
+	user->library->user = user;
 	
 	Node* friends_node = user_node->add_node("friends");
 	Node* logs_node = user_node->add_node("ActivityLogs");

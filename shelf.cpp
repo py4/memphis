@@ -2,6 +2,7 @@
 #include <string>
 #include <iostream>
 #include "book.h"
+#include "library.h"
 
 using namespace std;
 
@@ -73,4 +74,15 @@ Book* Shelf::find_book(string book_name)
 			return books[i];
 	}
 	return NULL;
+}
+
+void Shelf::show_books()
+{
+	for(int i = 0; i < books.size(); i++)
+	{
+		books[i]->show_info();
+		if(library->is_in_starred(books[i]))
+			 cout << ">>>>>> you've starred it" << endl;
+		cout << "-----------------" << endl;		
+	}
 }

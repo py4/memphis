@@ -112,6 +112,9 @@
 			</shelf>
 		</shelves>
 		<friends>
+			<user>
+				poorya
+			</user>
 		</friends>
 		<ActivityLogs>
 		</ActivityLogs>
@@ -119,6 +122,24 @@
 			<book>
 				Blindness
 			</book>
+		</favorites>
+	</user>
+	<user>
+		<username>
+			poorya
+		</username>
+		<password>
+			pass
+		</password>
+		<shelves>
+			<shelf name="default">
+			</shelf>
+		</shelves>
+		<friends>
+		</friends>
+		<ActivityLogs>
+		</ActivityLogs>
+		<favorites>
 		</favorites>
 	</user>
 </users>

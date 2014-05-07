@@ -19,9 +19,12 @@ public:
 	User();
 	~User();
 	bool is_in_library(Book*);
-	void like_book(Book*);
-	
+	bool does_follow(User*);
 private:
+	void like_book(Book*);
+	void follow(User*);
+
+	
 	Library* library;
 	std::vector <User*> friends;
 	std::vector <Log*>  activity_logs;

@@ -1,5 +1,6 @@
 #include "user.h"
 #include "library.h"
+#include "node.h"
 
 User::User()
 {
@@ -28,7 +29,23 @@ User::~User()
 	activity_logs.clear();
 	friends.clear();
 }
+
 bool User::is_in_library(Book* book)
 {
 	return library->is_in_library(book);
 }
+
+void User::follow(User* user)
+{
+	friends.push_back(user);
+	friends_node->add_node("user",user->username);
+}
+
+bool User::does_follow(User* user)
+{
+	for(int i = 0; i < friends.size(); i++)
+		if(friends[i] == user)
+			return true;
+	return false;
+}
+	

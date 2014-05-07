@@ -43,7 +43,14 @@ void API::start()
 				add_to_shelf();
 			if(params["command"] == "like")
 				like();
-			
+			if(params["command"] == "show_books")
+				show_books();
+			if(params["command"] == "show_all_books")
+				show_all_books();
+			if(params["command"] == "show_favorites")
+				show_favorites();
+			if(params["command"] == "follow")
+				follow();
 			if(params["command"] == "update_database") //TODO: permission checking
 			{
 				DB::db()->load_new_books();
@@ -136,6 +143,9 @@ void API::add_shelf()
 }
 
 //TODO: factoriing ensure_user()
+//TODO: wrong input when parameters are not passed
+//TODO: checking friendships
+//TODO: checking public private
 void API::add_to_shelf()
 {
 	ensure_user();
@@ -157,6 +167,7 @@ void API::add_to_shelf()
 
 void API::like()
 {
+	ensure_user();
 	Book* found_book = current_user->library->find_book(params["name"]);
 	if(found_book == NULL)
 		throw RespondTo::Failure::book_not_in_library();
@@ -165,6 +176,38 @@ void API::like()
 	
 	current_user->library->star_book(found_book);
 	cout << RespondTo::Success::liked() << endl;
+}
+
+void API::show_books()
+{
+	ensure_user();
+	Shelf* found_shelf = current_user->library->get_shelf(params["shelf_name"]);
+	if(found_shelf == NULL)
+		throw RespondTo::Failure::shelf_not_found();
+	found_shelf->show_books();
+}
+
+void API::show_all_books()
+{
+	ensure_user();
+	current_user->library->show_all_books();
+}
+
+void API::show_favorites()
+{
+	ensure_user();
+	current_user->library->show_favorites();
+}
+
+void API::follow()
+{
+	User* user = DB::db()->find_user(params["username"]);
+	if(user == NULL)
+		throw RespondTo::Failure::user_not_found();
+	if(current_user->does_follow(user))
+		throw RespondTo::Failure::already_following();
+	current_user->follow(user);
+	cout << RespondTo::Success::followed() << endl;
 }
 
 void API::ensure_user()

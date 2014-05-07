@@ -7,6 +7,7 @@
 
 class Book;
 class Node;
+class Library;
 
 class Shelf
 {
@@ -23,10 +24,12 @@ public:
 	bool has_book(std::string);
 	bool has_book(Book*);
 	Book* find_book(std::string);
+	void show_books();
 private:
 	vector <Book*> books;
 	std::string name;
 	Node* shelf_node;
+	Library* library;
 };
 
 #endif

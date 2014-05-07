@@ -20,10 +20,10 @@ private:
 	void add_shelf();
 	void add_to_shelf();
 	void like();
-	void show_books(string);
+	void show_books();
 	void show_all_books();
 	void show_favorites();
-	void follow(string);
+	void follow();
 	void show_updates();
 	void update_database();
 	void logout();
