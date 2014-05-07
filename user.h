@@ -20,20 +20,22 @@ public:
 	~User();
 	bool is_in_library(Book*);
 	bool does_follow(User*);
+	
 private:
 	void like_book(Book*);
 	void follow(User*);
-
-	
+	void add_log(std::string);
 	Library* library;
-	std::vector <User*> friends;
+	std::vector <User*> followings;
+	std::vector <User*> followers;
 	std::vector <Log*>  activity_logs;
 	
 	std::string username;
 	std::string password;
 
 	Node* user_node;
-	Node* friends_node;
+	Node* followings_node;
+	Node* followers_node;
 	Node* logs_node;
 };
 

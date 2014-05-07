@@ -162,8 +162,8 @@ void DB::populate_users()
 	string line;
 	User* c_user = NULL;
 
-	map <string, vector <string> > friends;
-
+	map <string, vector <string> > followings;
+	map <string, vector <string> > followers;
 	for(int i = 0; i < xml["users"]->children.size();i++)
 	{
 		Node* user_node = xml["users"]->children[i];
@@ -172,8 +172,9 @@ void DB::populate_users()
 		c_user->password = user_node->get_child_node("password")->value;
 
 		c_user->user_node = user_node;
-		c_user->logs_node = user_node->get_child_node("Activitylogs");
-		c_user->friends_node = user_node->get_child_node("friends");
+		c_user->logs_node = user_node->get_child_node("ActivityLogs");
+		c_user->followings_node = user_node->get_child_node("followings");
+		c_user->followers_node = user_node->get_child_node("followers");
 		c_user->library->shelves_node = user_node->get_child_node("shelves");
 		c_user->library->stared_node = user_node->get_child_node("favorites");
 		c_user->library->user = c_user;
@@ -181,23 +182,23 @@ void DB::populate_users()
 		configure_shelves(c_user, user_node->get_child_node("shelves")->children);
 		configure_activity_logs(c_user, user_node->get_child_node("ActivityLogs")->children);
 		configure_stared_books(c_user, user_node->get_child_node("favorites")->children);
-		for(int j = 0; j < user_node->get_child_node("friends")->children.size(); j++)
-			friends[c_user->username].push_back(user_node->get_child_node("friends")->children[j]->value);
-		users.push_back(c_user);
-	}
 
-	map <string, vector<string> >::iterator i;
-	for(i = friends.begin(); i != friends.end(); i++)
-	{
-		User* user = find_user(i->first);
-		for(int j = 0; j < i->second.size(); j++)
+		vector<Node*>::iterator it = c_user->followings_node->children.begin();
+		vector<Node*>::iterator end = c_user->followings_node->children.end();
+		for(it; it != end; it++)
 		{
-			User* user_friend = find_user(i->second[j]);
-			if(user_friend != NULL)
-				user->friends.push_back(user_friend);
-			else
-				cerr << "[db populator] user friend not found" << endl;
+			User* user_following = find_user((*it)->value);
+			c_user->followings.push_back(user_following); // if it is NULL then we have a bug
 		}
+
+		it = c_user->followers_node->children.begin();
+		end = c_user->followers_node->children.end();
+		for(it; it != end; it++)
+		{
+			User* user_follower = find_user((*it)->value);
+			c_user->followers.push_back(user_follower);
+		}
+		users.push_back(c_user);
 	}
 }
 
@@ -285,17 +286,18 @@ void DB::add_user(User* user)
 	user->library->shelves_node = shelves_node;
 	user->library->user = user;
 	
-	Node* friends_node = user_node->add_node("friends");
+	Node* followings_node = user_node->add_node("followings");
+	Node* followers_node = user_node->add_node("followers");
 	Node* logs_node = user_node->add_node("ActivityLogs");
 	Node* stared_node = user_node->add_node("favorites");
 
-	user->friends_node = friends_node;
+	user->followings_node = followings_node;
+	user->followers_node = followers_node;
 	user->logs_node = logs_node;
 	user->library->stared_node = stared_node;
 
 	Node* shelf_node = user_node->get_child_node("shelves")->add_node("shelf");
 	shelf_node->set_attribute("name","default");
-	
-	//DB::db()->save_to_disk();
+	user->library->add_shelf("default");
 }
 	

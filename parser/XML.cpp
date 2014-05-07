@@ -50,17 +50,22 @@ void XML::parse()
 		{
 			current_node->add_node(get_tag_name(line));
 			current_node = current_node->children.back();
+			//cerr << "node " << current_node->name << " : " << current_node << endl;
 			map <string,string> result = get_attributes(line);
 			current_node->set_attributes(result);
 			depth++;
 		}
 		else if(is_closing_tag(line))
 		{
+			//cerr << "closing tag name:  " << line << endl;
 			current_node = current_node->parent;
 			depth--;
 		}
 		else if(line.length() > 0)
+		{
+			//cerr << "value:  " << line << endl;
 			current_node->set_value(line);
+		}
 	}
 }
 

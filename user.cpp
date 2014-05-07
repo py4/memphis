@@ -1,22 +1,25 @@
 #include "user.h"
 #include "library.h"
-#include "node.h"
-
+#include "parser/node.h"
+#include <iostream>
+using namespace std;
 User::User()
 {
 	library = new Library;
 	user_node = NULL;
-	friends_node = NULL;
+	followings_node = NULL;
+	followers_node = NULL;
 	logs_node = NULL;
 }
 
 User::User(string u, string p)
 {
-	library = new Library;
 	username = u;
 	password = p;
+	library = new Library;
 	user_node = NULL;
-	friends_node = NULL;
+	followings_node = NULL;
+	followers_node = NULL;
 	logs_node = NULL;
 }
 
@@ -27,7 +30,8 @@ User::~User()
 		delete activity_logs[i];
 
 	activity_logs.clear();
-	friends.clear();
+	followings.clear();
+	followers.clear();
 }
 
 bool User::is_in_library(Book* book)
@@ -37,15 +41,29 @@ bool User::is_in_library(Book* book)
 
 void User::follow(User* user)
 {
-	friends.push_back(user);
-	friends_node->add_node("user",user->username);
+	followings.push_back(user);
+	followings_node->add_node("user",user->username);
+
+	user->followers.push_back(this);
+	user->followers_node->add_node("user",this->username);
 }
 
 bool User::does_follow(User* user)
 {
-	for(int i = 0; i < friends.size(); i++)
-		if(friends[i] == user)
+	for(int i = 0; i < followings.size(); i++)
+		if(followings[i] == user)
 			return true;
 	return false;
+}
+
+void User::add_log(string message)
+{
+	for(int i = 0; i < followers.size(); i++)
+	{
+		followers[i]->activity_logs.push_back(new Log(username,message));
+		Node* log_node = followers[i]->logs_node->add_node("log");
+		log_node->add_node("username",username);
+		log_node->add_node("message",message);
+	}
 }
 	

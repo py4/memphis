@@ -3,6 +3,7 @@
 #include "library.h"
 #include "book.h"
 #include "shelf.h"
+#include "logger/logger.h"
 
 using namespace std;
 
@@ -29,38 +30,46 @@ void API::start()
 			
 			if(params["command"] == "register")
 				sign_up();
-			if(params["command"] == "login")
+			else if(params["command"] == "login")
 				sign_in();
-			if(params["command"] == "add_book")
+			else if(params["command"] == "logout")
+			{
+				current_user = NULL;
+				cout << RespondTo::Success::ok_logout() << endl;
+				continue;
+			}
+			else if(params["command"] == "add_book")
 				add_book();
-			if(params["command"] == "dump")
+			else if(params["command"] == "dump")
 				cout << DB::db()->dump_db() << endl;
-			if(params["command"] == "show_book")
+			else if(params["command"] == "show_book")
 				show_book();
-			if(params["command"] == "add_shelf")
+			else if(params["command"] == "add_shelf")
 				add_shelf();
-			if(params["command"] == "add_to_shelf")
+			else if(params["command"] == "add_to_shelf")
 				add_to_shelf();
-			if(params["command"] == "like")
+			else if(params["command"] == "like")
 				like();
-			if(params["command"] == "show_books")
+			else if(params["command"] == "show_books")
 				show_books();
-			if(params["command"] == "show_all_books")
+			else if(params["command"] == "show_all_books")
 				show_all_books();
-			if(params["command"] == "show_favorites")
+			else if(params["command"] == "show_favorites")
 				show_favorites();
-			if(params["command"] == "follow")
+			else if(params["command"] == "follow")
 				follow();
-			if(params["command"] == "update_database") //TODO: permission checking
+			else if(params["command"] == "update_database") //TODO: permission checking
 			{
 				DB::db()->load_new_books();
 				cout << RespondTo::Success::updated() << endl;
 			}
-			
-			if(params["command"] == "quit")
+			else if(params["command"] == "quit")
 			{
 				DB::db()->save_to_disk();
 				break;
+			}
+			else {
+				cout << "undefined command" << endl;
 			}
 			
 		} catch (string error) {
@@ -110,7 +119,10 @@ void API::add_book()
 	else
 	{
 		if(current_user->library->add_book(book->name))
+		{
+			current_user->add_log(Logger::added_to_library(book->name));
 			cout << RespondTo::Success::book_added() << endl;
+		}
 		else
 			throw RespondTo::Failure::have_book();
 	}
@@ -160,7 +172,10 @@ void API::add_to_shelf()
 	else if(found_shelf->has_book(book_name))
 		throw RespondTo::Failure::book_is_in_shelf();
 	else
+	{
 		found_shelf->add_book(book_name);
+		current_user->add_log(Logger::added_to_shelf(book_name,found_shelf->name));
+	}
 
 	cout << RespondTo::Success::book_added_to_shelf() << endl;
 }
@@ -175,6 +190,7 @@ void API::like()
 		throw RespondTo::Failure::is_in_stared();
 	
 	current_user->library->star_book(found_book);
+	current_user->add_log(Logger::liked(found_book->name));
 	cout << RespondTo::Success::liked() << endl;
 }
 

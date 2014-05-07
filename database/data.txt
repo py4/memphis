@@ -95,33 +95,44 @@
 		</password>
 		<shelves>
 			<shelf name="default">
-				<book>
-					Little Women
-				</book>
-				<book>
-					Blindness
-				</book>
 			</shelf>
-			<shelf name="romance">
-				<book>
-					Little Women
-				</book>
-				<book>
-					Blindness
-				</book>
+			<shelf name="default">
 			</shelf>
 		</shelves>
-		<friends>
+		<followings>
 			<user>
 				poorya
 			</user>
-		</friends>
+		</followings>
+		<followers>
+		</followers>
 		<ActivityLogs>
+			<log>
+				<username>
+					poorya
+				</username>
+				<message>
+					added Little Women to his library
+				</message>
+			</log>
+			<log>
+				<username>
+					poorya
+				</username>
+				<message>
+					added Little Women to romance
+				</message>
+			</log>
+			<log>
+				<username>
+					poorya
+				</username>
+				<message>
+					liked Little Women
+				</message>
+			</log>
 		</ActivityLogs>
 		<favorites>
-			<book>
-				Blindness
-			</book>
 		</favorites>
 	</user>
 	<user>
@@ -134,12 +145,30 @@
 		<shelves>
 			<shelf name="default">
 			</shelf>
+			<shelf name="default">
+				<book>
+					Little Women
+				</book>
+			</shelf>
+			<shelf name="romance">
+				<book>
+					Little Women
+				</book>
+			</shelf>
 		</shelves>
-		<friends>
-		</friends>
+		<followings>
+		</followings>
+		<followers>
+			<user>
+				pooya
+			</user>
+		</followers>
 		<ActivityLogs>
 		</ActivityLogs>
 		<favorites>
+			<book>
+				Little Women
+			</book>
 		</favorites>
 	</user>
 </users>
