@@ -91,20 +91,30 @@
 			pooya
 		</username>
 		<password>
-			pass
+			felan1
 		</password>
 		<shelves>
 			<shelf name="default">
 			</shelf>
 			<shelf name="default">
+				<book>
+					Little Women
+				</book>
+			</shelf>
+			<shelf name="romantic">
+				<book>
+					Little Women
+				</book>
+			</shelf>
+			<shelf name="ziba">
 			</shelf>
 		</shelves>
 		<followings>
+		</followings>
+		<followers>
 			<user>
 				poorya
 			</user>
-		</followings>
-		<followers>
 		</followers>
 		<ActivityLogs>
 		</ActivityLogs>
@@ -116,38 +126,40 @@
 			poorya
 		</username>
 		<password>
-			pass
+			felan2
 		</password>
 		<shelves>
 			<shelf name="default">
-				<book>
-					Lady L
-				</book>
 			</shelf>
 			<shelf name="default">
-				<book>
-					Little Women
-				</book>
-			</shelf>
-			<shelf name="romance">
-				<book>
-					Little Women
-				</book>
 			</shelf>
 		</shelves>
 		<followings>
-		</followings>
-		<followers>
 			<user>
 				pooya
 			</user>
+		</followings>
+		<followers>
 		</followers>
 		<ActivityLogs>
+			<log>
+				<username>
+					pooya
+				</username>
+				<message>
+					added Little Women to his library
+				</message>
+			</log>
+			<log>
+				<username>
+					pooya
+				</username>
+				<message>
+					added Little Women to romantic
+				</message>
+			</log>
 		</ActivityLogs>
 		<favorites>
-			<book>
-				Little Women
-			</book>
 		</favorites>
 	</user>
 </users>

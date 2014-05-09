@@ -1,15 +1,15 @@
-#ifndef API_H_
-#define API_H_
+#ifndef CLI_H_
+#define CLI_H_
 
 #include "../libs/db.h"
 #include "../responder/responder.h"
 #include <string>
 
-class API
+class CLI
 {
 
 public:
-	API();
+	CLI();
 	void start();
 
 private:

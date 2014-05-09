@@ -13,7 +13,8 @@ class Node;
 class User
 {
 	friend class DB;
-	friend class API;
+	friend class CLI;
+	friend class GUI;
 public:
 	User(string, string);
 	User();

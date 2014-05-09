@@ -1,18 +1,21 @@
 #ifndef DB_H_
 #define DB_H_
 
-#define NEW_BOOKS "../database/database.txt"
-#define DATA "../database/data.txt"
+#define NEW_BOOKS "/home/pooya/Courses/AP/assign8/database/database.txt"
+#define DATA "/home/pooya/Courses/AP/assign8/database/data.txt"
 
 #include <vector>
 #include "../parser/XML.h"
 class User;
 class Book;
-class API;
-
+class CLI;
+class GUI;
+//TODO: relative path not working
+//TODO: admin user and its permission
 class DB
 {
-	friend class API;
+	friend class CLI;
+	friend class GUI;
 public:
 
 	static DB* db();
@@ -21,8 +24,12 @@ public:
 	User* find_user(string);
 	string dump_db();
 	static bool create_instance();
-	void start_api();
+	void start_cli();
+	int start_gui(int argc, char* argv[]);
 	static void free_db();
+
+	vector <Book*>& get_books() { return books; }
+	vector <User*>& get_users() { return users; }
 private:
 	void save_to_disk(string = DATA);
 	void load_new_books();
@@ -49,7 +56,8 @@ private:
 	std::vector <User*> users;
 	std::vector <Book*> books;
 	
-	API* api;
+	CLI* cli;
+	GUI* gui;
 };
 
 #endif

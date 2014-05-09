@@ -6,21 +6,29 @@
 #include <iostream>
 #include <fstream>
 #include <map>
-#include "../interface/API.h"
+#include "../interface/CLI/CLI.h"
+#include "../interface/GUI/GUI.h"
 
 using namespace std;
 
 DB* DB::instance = 0;
 
-void DB::start_api()
+void DB::start_cli()
 {
-	if(api == NULL)
-		api = new API;
-	api->start();
+	if(cli == NULL)
+		cli = new CLI;
+	cli->start();
+}
+
+int DB::start_gui(int argc, char* argv[])
+{
+	if(gui == NULL)
+		gui = new GUI;
+	return gui->start(argc,argv);
 }
 DB::DB()
 {
-	api = NULL;
+	cli = NULL;
 	
 	if(xml.load(DATA))
 		xml.parse();
@@ -67,7 +75,7 @@ DB::~DB()
 		delete users[i];
 	for(unsigned int i = 0; i < books.size(); i++)
 		delete books[i];
-	delete api;
+	delete cli;
 }
 
 /*void DB::populate_books()
@@ -241,8 +249,10 @@ void DB::load_new_books()
 	ifstream book_db;
 	string line;
 	map <string,string> book_info;
-	
+
+	cerr << "new books:  " << NEW_BOOKS << endl;
 	book_db.open(NEW_BOOKS);
+	cerr << "book db:  " << book_db << endl;
 	if(!book_db)
 	{
 		cerr << "new books file not found..." << endl;

@@ -1,18 +1,19 @@
-#include "API.h"
+#include "CLI.h"
 #include "../libs/user.h"
 #include "../libs/library.h"
 #include "../libs/book.h"
 #include "../libs/shelf.h"
 #include "../logger/logger.h"
+#include <string>
 
 using namespace std;
 
-API::API()
+CLI::CLI()
 {
 	current_user = NULL;
 }
 
-void API::start()
+void CLI::start()
 {
 	string command_name;
 	while(true)
@@ -81,7 +82,7 @@ void API::start()
 	}
 }
 
-void API::sign_up()
+void CLI::sign_up()
 {
 	ensure_no_user();
 	
@@ -96,7 +97,7 @@ void API::sign_up()
 	cout << RespondTo::Success::ok_signup() << endl;
 }
 
-void API::sign_in()
+void CLI::sign_in()
 {
 	ensure_no_user();
 	
@@ -111,7 +112,7 @@ void API::sign_in()
 	cout << RespondTo::Success::ok_login() << endl;
 }
 
-void API::add_book()
+void CLI::add_book()
 {
 	ensure_user();
 	
@@ -130,7 +131,7 @@ void API::add_book()
 	}
 }
 
-void API::show_book()
+void CLI::show_book()
 {
 	ensure_user();
 
@@ -145,7 +146,7 @@ void API::show_book()
 		cout << "it's in your library" << endl;
 }
 
-void API::add_shelf()
+void CLI::add_shelf()
 {
 	ensure_user();
 	Shelf* found_shelf = current_user->library->get_shelf(params["shelf_name"]);
@@ -160,7 +161,7 @@ void API::add_shelf()
 //TODO: wrong input when parameters are not passed
 //TODO: checking friendships
 //TODO: checking public private
-void API::add_to_shelf()
+void CLI::add_to_shelf()
 {
 	ensure_user();
 	Shelf* found_shelf = current_user->library->get_shelf(params["shelf_name"]);
@@ -182,7 +183,7 @@ void API::add_to_shelf()
 	cout << RespondTo::Success::book_added_to_shelf() << endl;
 }
 
-void API::like()
+void CLI::like()
 {
 	ensure_user();
 	Book* found_book = current_user->library->find_book(params["name"]);
@@ -196,7 +197,7 @@ void API::like()
 	cout << RespondTo::Success::liked() << endl;
 }
 
-void API::show_books()
+void CLI::show_books()
 {
 	ensure_user();
 	Shelf* found_shelf = current_user->library->get_shelf(params["shelf_name"]);
@@ -205,19 +206,19 @@ void API::show_books()
 	found_shelf->show_books();
 }
 
-void API::show_all_books()
+void CLI::show_all_books()
 {
 	ensure_user();
 	current_user->library->show_all_books();
 }
 
-void API::show_favorites()
+void CLI::show_favorites()
 {
 	ensure_user();
 	current_user->library->show_favorites();
 }
 
-void API::follow()
+void CLI::follow()
 {
 	ensure_user();
 	User* user = DB::db()->find_user(params["username"]);
@@ -229,19 +230,19 @@ void API::follow()
 	cout << RespondTo::Success::followed() << endl;
 }
 
-void API::show_updates()
+void CLI::show_updates()
 {
 	ensure_user();
 	current_user->show_logs();
 }
 
-void API::ensure_user()
+void CLI::ensure_user()
 {
 	if(current_user == NULL)
 		throw RespondTo::Failure::access_denied();
 }
 
-void API::ensure_no_user()
+void CLI::ensure_no_user()
 {
 	if(current_user != NULL)
 		throw RespondTo::Failure::already_logged_in();

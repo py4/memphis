@@ -12,7 +12,7 @@ class Library;
 class Shelf
 {
 	friend class DB;
-	friend class API;
+	friend class CLI;
 	friend class Library;
 public:
 	Shelf();
