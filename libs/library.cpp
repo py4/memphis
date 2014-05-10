@@ -85,6 +85,14 @@ bool Library::is_in_starred(Book* book)
 	return false;
 }
 
+bool Library::is_in_starred(string name)
+{
+	for(int i = 0; i < stared_books.size(); i++)
+		if(stared_books[i]->get_name() == name)
+			return true;
+	return false;
+}
+
 Shelf* Library::get_shelf(string name)
 {
 	for(int i = 0; i < shelves.size(); i++)
@@ -121,4 +129,14 @@ void Library::show_favorites()
 		stared_books[i]->show_info();
 		cout << "---------------" << endl;
 	}
+}
+
+vector <Shelf*>& Library::get_shelves()
+{
+	return shelves;
+}
+
+vector <Book*>& Library::get_stared_books()
+{
+	return stared_books;
 }

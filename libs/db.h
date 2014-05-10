@@ -30,8 +30,11 @@ public:
 
 	vector <Book*>& get_books() { return books; }
 	vector <User*>& get_users() { return users; }
-private:
+
+	User* user() { return current_user; }
 	void save_to_disk(string = DATA);
+	
+private:
 	void load_new_books();
 	void create_schema();
 	void populate_books();
@@ -58,6 +61,7 @@ private:
 	
 	CLI* cli;
 	GUI* gui;
+	User* current_user;
 };
 
 #endif

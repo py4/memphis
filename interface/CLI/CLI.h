@@ -35,8 +35,6 @@ private:
 	//helpers...
 	void ensure_user();
 	void ensure_no_user();
-
-	User* current_user;
 };
 
 #endif

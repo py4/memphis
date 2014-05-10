@@ -16,7 +16,7 @@ int GUI::start(int argc, char* argv[])
 	window->setWindowTitle("Memphis");
 	window->setFixedSize(500,500);
 
-	if(!current_user)
+	if(!DB::db()->current_user)
 		window->render_login(this);
 	else
 		window->setCentralWidget(new TabWidget);
@@ -40,7 +40,7 @@ void GUI::sign_in()
 		return;
 	}
 
-	current_user = user;
+	DB::db()->current_user = user;
 	set_status(RespondTo::Success::ok_login());
 
 	MainWindow::getInstance()->setCentralWidget(new TabWidget);
@@ -57,7 +57,7 @@ void GUI::sign_up()
 
 	user = new User(params["username"],params["password"]);
 	DB::db()->add_user(user);
-	current_user = user;
+	DB::db()->current_user = user;
 
 	set_status(RespondTo::Success::ok_signup());
 
@@ -67,4 +67,9 @@ void GUI::sign_up()
 void GUI::set_status(string status)
 {
 	MainWindow::getInstance()->statusBar()->showMessage(QString::fromStdString((status)));
+}
+
+void GUI::set_status_for_book_selection(string name)
+{
+	
 }

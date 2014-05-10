@@ -25,6 +25,8 @@ public:
 	bool has_book(Book*);
 	Book* find_book(std::string);
 	void show_books();
+	std::string get_name();
+	vector<Book*> get_books() { return books; }
 private:
 	vector <Book*> books;
 	std::string name;

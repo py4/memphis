@@ -21,9 +21,9 @@ public:
 	std::map<std::string,std::string> params;
 	
 private:
-	User* current_user;
 	void show_sign_in_form();
 	void set_status(std::string);
+	void set_status_for_book_selection(std::string);
 
 };
 #endif

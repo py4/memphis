@@ -21,11 +21,15 @@ public:
 	~User();
 	bool is_in_library(Book*);
 	bool does_follow(User*);
-	
+	const vector<User*>& get_followings() const;
+	const vector<User*>& get_followers() const;
+	const vector<Log*>& get_activity_logs() const;
+	Library* get_library();
+	void add_log(std::string);
+
 private:
 	void like_book(Book*);
 	void follow(User*);
-	void add_log(std::string);
 	void show_logs();
 	Library* library;
 	std::vector <User*> followings;

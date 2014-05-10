@@ -58,8 +58,10 @@ bool User::does_follow(User* user)
 
 void User::add_log(string message)
 {
+	cerr << "followers size:  " << followers.size() << endl;
 	for(int i = 0; i < followers.size(); i++)
 	{
+		cerr << followers[i] << endl;
 		followers[i]->activity_logs.push_back(new Log(username,message));
 		Node* log_node = followers[i]->logs_node->add_node("log");
 		log_node->add_node("username",username);
@@ -73,5 +75,25 @@ void User::show_logs()
 		cout << activity_logs[i]->username << " " << activity_logs[i]->message << endl;
 	activity_logs.clear();
 	logs_node->delete_children();
+}
+
+const vector<User*>& User::get_followings() const
+{
+	return followings;
+}
+
+const vector<User*>& User::get_followers() const
+{
+	return followers;
+}
+
+const vector<Log*>& User::get_activity_logs() const
+{
+	return activity_logs;
+}
+
+Library* User::get_library()
+{
+	return library;
 }
 	

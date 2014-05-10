@@ -30,5 +30,11 @@ void MainWindow::render_login(GUI* gui)
 
 void MainWindow::closeEvent(QCloseEvent* event)
 {
+	DB::db()->save_to_disk();
 	DB::free_db();
+}
+
+void MainWindow::set_status(string status)
+{
+	instance->statusBar()->showMessage(QString::fromStdString(status));
 }

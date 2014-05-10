@@ -3,18 +3,20 @@
 
 #include <QMainWindow>
 #include "login.h"
-
+#include <string>
 class MainWindow : public QMainWindow
 {
  private:
    static MainWindow* instance;
+ 	 MainWindow(QWidget* = NULL);
 // protected:
    //MainWindow(QWidget* = NULL);
  public:
    static MainWindow* getInstance();
-	 MainWindow(QWidget* = NULL);
+
 	 void render_login(GUI*);
 	 void closeEvent(QCloseEvent*);
+   static void set_status(std::string);
 };
 
 

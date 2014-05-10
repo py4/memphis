@@ -205,7 +205,9 @@ void DB::populate_users()
 		end = c_user->followers_node->children.end();
 		for(; it != end; it++)
 		{
+			cerr << "follower name:  " << (*it)->value << endl;
 			User* user_follower = find_user((*it)->value);
+			cerr << "follower pointer:  " << user_follower << endl;
 			c_user->followers.push_back(user_follower);
 		}
 		users.push_back(c_user);
@@ -310,6 +312,6 @@ void DB::add_user(User* user)
 
 	Node* shelf_node = user_node->get_child_node("shelves")->add_node("shelf");
 	shelf_node->set_attribute("name","default");
-	user->library->add_shelf("default");
+	user->library->add_shelf_from_xml(shelf_node);
 }
 	

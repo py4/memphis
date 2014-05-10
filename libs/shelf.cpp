@@ -86,3 +86,8 @@ void Shelf::show_books()
 		cout << "-----------------" << endl;		
 	}
 }
+
+string Shelf::get_name()
+{
+	return name;
+}
