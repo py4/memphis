@@ -108,39 +108,102 @@
 	</user>
 	<user>
 		<username>
-			ali
+			pooya
 		</username>
 		<password>
-			felani
+			pass
 		</password>
 		<shelves>
 			<shelf name="default">
 				<book>
+					Little Women
+				</book>
+				<book>
+					Lady L
+				</book>
+				<book>
 					When Patty Went to College
 				</book>
 				<book>
-					Lady L
-				</book>
-				<book>
-					Franny and Zooey
+					The Catcher in the Rye
 				</book>
 			</shelf>
 			<shelf name="romance">
+			</shelf>
+			<shelf name="drama">
 				<book>
-					Lady L
+					When Patty Went to College
 				</book>
 			</shelf>
 		</shelves>
 		<followings>
 		</followings>
 		<followers>
+			<user>
+				poorya
+			</user>
 		</followers>
 		<ActivityLogs>
 		</ActivityLogs>
 		<favorites>
 			<book>
+				The Catcher in the Rye
+			</book>
+			<book>
+				Little Women
+			</book>
+			<book>
 				Lady L
 			</book>
+		</favorites>
+	</user>
+	<user>
+		<username>
+			poorya
+		</username>
+		<password>
+			pass
+		</password>
+		<shelves>
+			<shelf name="default">
+			</shelf>
+		</shelves>
+		<followings>
+			<user>
+				pooya
+			</user>
+		</followings>
+		<followers>
+			<user>
+				ali
+			</user>
+		</followers>
+		<ActivityLogs>
+		</ActivityLogs>
+		<favorites>
+		</favorites>
+	</user>
+	<user>
+		<username>
+			ali
+		</username>
+		<password>
+			akbari
+		</password>
+		<shelves>
+			<shelf name="default">
+			</shelf>
+		</shelves>
+		<followings>
+			<user>
+				poorya
+			</user>
+		</followings>
+		<followers>
+		</followers>
+		<ActivityLogs>
+		</ActivityLogs>
+		<favorites>
 		</favorites>
 	</user>
 </users>

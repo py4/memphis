@@ -19,12 +19,13 @@ public:
     void render_explore_form();
     void render_shelves_form();
     void render_people_form();
+    void render_notifications_form();
 
     bool rerender_explore;
     bool rerender_shelves;
     bool rerender_notifications;
     bool rerender_people;
-
+    void reset_tab();
 private slots:
     void on_pushButton_clicked();
 
@@ -36,6 +37,10 @@ private slots:
     void like();
     void add_to_shelf();
     void follow();
+    void clear_notifications();
+    void logout();
+    void update();
+    void exit();
 
     void on_tabWidget_currentChanged(int index);
 
@@ -47,11 +52,14 @@ private slots:
 
     void on_listWidget_customContextMenuRequested(const QPoint &pos);
 
+    void on_pushButton_3_clicked();
+
 private:
     Ui::MainWindow *ui;
-    void closeEvent(QCloseEvent*);
+    //void closeEvent(QCloseEvent*);
     std::string book_name;
     QTableWidgetItem* selected_row;
+
 };
 
 #endif // MAINWINDOW_H

@@ -46,6 +46,8 @@ void User::follow(User* user)
 
 	user->followers.push_back(this);
 	user->followers_node->add_node("user",this->username);
+
+	cout << this->username << " followed " << user->username << endl;
 }
 
 bool User::does_follow(User* user)
@@ -61,7 +63,8 @@ void User::add_log(string message)
 	cerr << "followers size:  " << followers.size() << endl;
 	for(int i = 0; i < followers.size(); i++)
 	{
-		cerr << followers[i] << endl;
+		cerr << "adding log to " << followers[i]->username << endl;
+		cerr << "log:  " << message << endl;	
 		followers[i]->activity_logs.push_back(new Log(username,message));
 		Node* log_node = followers[i]->logs_node->add_node("log");
 		log_node->add_node("username",username);

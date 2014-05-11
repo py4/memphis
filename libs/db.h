@@ -14,6 +14,7 @@ class DB
 {
 	friend class CLI;
 	friend class GUI;
+	friend class MainWindow;
 public:
 
 	static DB* db();

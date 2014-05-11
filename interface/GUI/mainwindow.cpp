@@ -11,6 +11,7 @@
 #include <QInputDialog>
 #include <QStringList>
 #include "shelf.h"
+#include "log.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -25,15 +26,13 @@ MainWindow::MainWindow(QWidget *parent) :
     rerender_shelves = true;
     rerender_notifications = true;
     rerender_people = true;
-    if(!DB::db()->user())
+
+    if(DB::db()->user())
     {
 
-        //Form* login = new Form(this);
-        //setCentralWidget(login);
-        //this->setVisible(false);
-        //login->show();
-        //this->setVisible(true);
     }
+   // else
+    //    ui->menubar->hide();
 }
 
 MainWindow::~MainWindow()
@@ -59,6 +58,9 @@ void MainWindow::on_pushButton_2_clicked()
 
 void MainWindow::render_explore_form()
 {
+
+    //ui->menubar->show();
+    cerr << "actions size:  " << ui->menubar->actions().size() << endl;
     vector<Book*> books = DB::db()->get_books();
     ui->all_table->setRowCount(books.size());
     ui->all_table->setColumnCount(4);
@@ -172,11 +174,12 @@ void MainWindow::add_to_library()
     {
         DB::db()->user()->add_log(Logger::added_to_library(book_name));
         set_status(RespondTo::Success::book_added());
-        DB::db()->user()->add_log(Logger::added_to_library(book_name));
     }
     else
         set_status(RespondTo::Failure::have_book());
     ui->all_table->selectedItems()[0]->setData(Qt::BackgroundRole, Qt::red);
+
+    rerender_shelves = true;
 }
 
 void MainWindow::like()
@@ -217,13 +220,6 @@ void MainWindow::set_status(string status)
     statusBar()->showMessage(QString::fromStdString(status));
 }
 
-void MainWindow::closeEvent(QCloseEvent* event)
-{
-        DB::db()->save_to_disk();
-        DB::free_db();
-}
-
-
 void MainWindow::on_tabWidget_currentChanged(int index)
 {
     if(index == 0)
@@ -247,6 +243,13 @@ void MainWindow::on_tabWidget_currentChanged(int index)
             cout << "rerendering people" << endl;
             render_people_form();
             rerender_people = false;
+        }
+    if(index == 3)
+        if(rerender_notifications)
+        {
+            cout << "rerendering notifications" << endl;
+            render_notifications_form();
+            rerender_notifications = false;
         }
 }
 
@@ -369,3 +372,75 @@ void MainWindow::on_listWidget_customContextMenuRequested(const QPoint &pos)
     connect(action,SIGNAL(triggered()),this,SLOT(follow()));
     menu->popup(ui->listWidget->viewport()->mapToGlobal(pos));
 }
+
+void MainWindow::render_notifications_form()
+{
+    ui->listWidget_2->clear();
+    vector<Log*> logs = DB::db()->user()->get_activity_logs();
+    for(int i = 0; i < logs.size(); i++)
+    {
+        string message = logs[i]->username + " " + logs[i]->message;
+        ui->listWidget_2->addItem(QString::fromStdString(message));
+    }
+}
+
+void MainWindow::clear_notifications()
+{
+    ui->listWidget_2->clear();
+    DB::db()->user()->activity_logs.clear();
+    DB::db()->user()->logs_node->delete_children();
+}
+
+void MainWindow::on_pushButton_3_clicked()
+{
+    clear_notifications();
+}
+
+void MainWindow::logout()
+{
+    DB::db()->current_user = NULL;
+    set_status(RespondTo::Success::ok_logout());
+    //ui->tabWidget->setCurrentWidget(ui->all_table);
+    //ui->tabWidget->setCurrentWidget(ui->tab);
+    ui->menubar->clear();
+    ui->stack->setCurrentWidget(ui->login_form);
+    ui->user_field->clear();
+    ui->password_field->clear();
+    ui->all_table->clear();
+    ui->shelf_books_table->clear();
+    ui->listWidget->clear();
+    ui->listWidget_2->clear();
+    rerender_explore = true;
+    rerender_shelves = true;
+    rerender_notifications = true;
+    rerender_people = true;
+
+}
+
+void MainWindow::exit()
+{
+    cerr << "saving to file" << endl;
+    DB::db()->save_to_disk();
+    DB::free_db();
+    qApp->exit();
+}
+
+void MainWindow::update()
+{
+    cerr << "updating" << endl;
+    DB::db()->load_new_books();
+    set_status(RespondTo::Success::updated());
+    rerender_explore = true;
+    render_explore_form();
+}
+
+void MainWindow::reset_tab()
+{
+    ui->tabWidget->setCurrentWidget(ui->tab);
+}
+
+/*void MainWindow::closeEvent(QCloseEvent* event)
+{
+        DB::db()->save_to_disk();
+        DB::free_db();
+}*/

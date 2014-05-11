@@ -15,6 +15,7 @@ class User
 	friend class DB;
 	friend class CLI;
 	friend class GUI;
+	friend class MainWindow;
 public:
 	User(string, string);
 	User();
@@ -25,13 +26,14 @@ public:
 	const vector<User*>& get_followers() const;
 	const vector<Log*>& get_activity_logs() const;
 	Library* get_library();
-	void add_log(std::string);
-	bool is_admin();
 	std::string get_username() { return username; }
+private:
 	void follow(User*);
 	void like_book(Book*);
 	void show_logs();
-private:
+	void add_log(std::string);
+	bool is_admin();
+
 	Library* library;
 	std::vector <User*> followings;
 	std::vector <User*> followers;

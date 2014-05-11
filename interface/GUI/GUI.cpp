@@ -3,12 +3,17 @@
 #include "login.h"
 #include "../../libs/user.h"
 #include <QStatusBar>
-#include "tabs/tab_widget.h"
+#include <QMenuBar>
 using namespace std;
 
 GUI* GUI::ins = 0;
 
 GUI::GUI()
+{
+
+}
+
+GUI::~GUI()
 {
 
 }
@@ -54,7 +59,7 @@ void GUI::sign_in()
 
 	DB::db()->current_user = user;
 	set_status(RespondTo::Success::ok_login());
-    window->render_explore_form();
+    prepare_menu();
     //MainWindow::getInstance()->setCentralWidget(new TabWidget);
 }
 
@@ -73,7 +78,7 @@ void GUI::sign_up()
 	DB::db()->current_user = user;
 
 	set_status(RespondTo::Success::ok_signup());
-    window->render_explore_form();
+    prepare_menu();
     //MainWindow::getInstance()->setCentralWidget(new TabWidget);
 }
 
@@ -100,4 +105,27 @@ bool GUI::create_instance()
         return true;
     }
     return false;
+}
+
+void GUI::prepare_menu()
+{
+    QMenu* menu = new QMenu("Actions");
+    QAction* logout_action = new QAction("logout",this);
+    menu->addAction(logout_action);
+    QObject::connect(logout_action,SIGNAL(triggered()),window,SLOT(logout()));
+    if(DB::db()->user()->is_admin())
+    {
+        QAction* update_action = new QAction("update database",this);
+        QObject::connect(update_action,SIGNAL(triggered()),window,SLOT(update()));
+
+        QAction* exit_action = new QAction("exit",this);
+        QObject::connect(exit_action,SIGNAL(triggered()),window,SLOT(exit()));
+
+        menu->addAction(update_action);
+        menu->addAction(exit_action);
+    }
+    window->menuBar()->addMenu(menu);
+    window->reset_tab();
+    window->render_explore_form();
+    //window->menuBar()->show();
 }

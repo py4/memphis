@@ -40,14 +40,19 @@ void CLI::start()
 				sign_in();
 				continue;
 			}
-			else if(params["command"] == "quit")
+
+			ensure_user();			
+			if(params["command"] == "quit")
 			{
+				if(!DB::db()->current_user->is_admin())
+				{
+					cerr << RespondTo::Failure::access_denied() << endl;
+					continue;
+				}
 				DB::db()->save_to_disk();
 				break;
 			}
-
-			ensure_user();			
-			if(params["command"] == "logout")
+			else if(params["command"] == "logout")
 			{
 				DB::db()->current_user = NULL;
 				cout << RespondTo::Success::ok_logout() << endl;

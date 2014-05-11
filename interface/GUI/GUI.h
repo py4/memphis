@@ -13,9 +13,9 @@
 class User;
 class Login;
 
-class GUI
+class GUI : public QObject
 {
-
+    Q_OBJECT
 public:
     static GUI* instance();
 	int start(int, char* []);
@@ -23,11 +23,11 @@ public:
 	void sign_up();
 	std::map<std::string,std::string> params;
     static bool create_instance();
+    ~GUI();
 private:
     MainWindow* window;
     GUI();
   GUI(GUI const&);
-    ~GUI();
   void operator=(GUI const&);
 
   static GUI* ins;
@@ -36,5 +36,6 @@ private:
 	void set_status(std::string);
 	void set_status_for_book_selection(std::string);
 
+    void prepare_menu();
 };
 #endif
