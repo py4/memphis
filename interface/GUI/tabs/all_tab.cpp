@@ -9,7 +9,7 @@
 #include "../../../libs/user.h"
 #include "../../../libs/library.h"
 #include "../../../logger/logger.h"
-#include "../main_window.h"
+#include "../mainwindow.h"
 #include "../../../responder/responder.h"
 using namespace std;
 AllTab::AllTab(QWidget* parent) : QWidget(parent)
@@ -74,8 +74,8 @@ void AllTab::add_to_library()
 	if(DB::db()->user()->get_library()->add_book(book_name))
 	{
 		DB::db()->user()->add_log(Logger::added_to_library(book_name));
-		MainWindow::set_status(RespondTo::Success::book_added());
+        //MainWindow::set_status(RespondTo::Success::book_added());
 	}
-	else
-		MainWindow::set_status(RespondTo::Failure::have_book());
+    //else
+        //MainWindow::set_status(RespondTo::Failure::have_book());
 }

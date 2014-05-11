@@ -8,6 +8,8 @@
 #include "../../responder/responder.h"
 #include "../../libs/db.h"
 #include <QString>
+#include "mainwindow.h"
+
 class User;
 class Login;
 
@@ -15,12 +17,21 @@ class GUI
 {
 
 public:
+    static GUI* instance();
 	int start(int, char* []);
 	void sign_in();
 	void sign_up();
 	std::map<std::string,std::string> params;
-	
+    static bool create_instance();
 private:
+    MainWindow* window;
+    GUI();
+  GUI(GUI const&);
+    ~GUI();
+  void operator=(GUI const&);
+
+  static GUI* ins;
+
 	void show_sign_in_form();
 	void set_status(std::string);
 	void set_status_for_book_selection(std::string);

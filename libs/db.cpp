@@ -22,9 +22,9 @@ void DB::start_cli()
 
 int DB::start_gui(int argc, char* argv[])
 {
-	if(gui == NULL)
-		gui = new GUI;
-	return gui->start(argc,argv);
+    if(GUI::instance() == NULL)
+        GUI::create_instance();
+    return GUI::instance()->start(argc,argv);
 }
 DB::DB()
 {

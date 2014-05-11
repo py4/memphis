@@ -1,5 +1,5 @@
 #include "tab_widget.h"
-#include "../main_window.h"
+#include "../mainwindow.h"
 #include <QSize>
 #include "all_tab.h"
 #include "shelves_tab.h"

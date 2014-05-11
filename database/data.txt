@@ -118,6 +118,17 @@
 				<book>
 					Little Women
 				</book>
+				<book>
+					Lady L
+				</book>
+				<book>
+					When Patty Went to College
+				</book>
+				<book>
+					The Catcher in the Rye
+				</book>
+			</shelf>
+			<shelf name="romance">
 			</shelf>
 		</shelves>
 		<followings>
@@ -131,7 +142,13 @@
 		</ActivityLogs>
 		<favorites>
 			<book>
+				The Catcher in the Rye
+			</book>
+			<book>
 				Little Women
+			</book>
+			<book>
+				Lady L
 			</book>
 		</favorites>
 	</user>
@@ -154,6 +171,94 @@
 		<followers>
 		</followers>
 		<ActivityLogs>
+			<log>
+				<username>
+					pooya
+				</username>
+				<message>
+					added Lady L to his library
+				</message>
+			</log>
+			<log>
+				<username>
+					pooya
+				</username>
+				<message>
+					added When Patty Went to College to his library
+				</message>
+			</log>
+			<log>
+				<username>
+					pooya
+				</username>
+				<message>
+					added When Patty Went to College to his library
+				</message>
+			</log>
+			<log>
+				<username>
+					pooya
+				</username>
+				<message>
+					liked When Patty Went to College
+				</message>
+			</log>
+			<log>
+				<username>
+					pooya
+				</username>
+				<message>
+					liked Lady L
+				</message>
+			</log>
+			<log>
+				<username>
+					pooya
+				</username>
+				<message>
+					added The Catcher in the Rye to his library
+				</message>
+			</log>
+			<log>
+				<username>
+					pooya
+				</username>
+				<message>
+					added The Catcher in the Rye to his library
+				</message>
+			</log>
+			<log>
+				<username>
+					pooya
+				</username>
+				<message>
+					liked The Catcher in the Rye
+				</message>
+			</log>
+			<log>
+				<username>
+					pooya
+				</username>
+				<message>
+					liked The Catcher in the Rye
+				</message>
+			</log>
+			<log>
+				<username>
+					pooya
+				</username>
+				<message>
+					liked Little Women
+				</message>
+			</log>
+			<log>
+				<username>
+					pooya
+				</username>
+				<message>
+					liked Lady L
+				</message>
+			</log>
 		</ActivityLogs>
 		<favorites>
 		</favorites>

@@ -1,28 +1,22 @@
-#ifndef LOGIN_H_
-#define LOGIN_H_
+#ifndef LOGIN_H
+#define LOGIN_H
 
 #include <QWidget>
-#include <string>
-#include <QLineEdit>
-class GUI;
 
-class Login : public QWidget
+namespace Ui {
+class Form;
+}
+
+class Form : public QWidget
 {
-	Q_OBJECT
-	
+    Q_OBJECT
+    
 public:
-	Login(GUI*, QWidget* = 0);
-	~Login();
-	private slots:
-		void on_sign_in();
-		void on_sign_up();
-	
+    explicit Form(QWidget *parent = 0);
+    ~Form();
+    
 private:
-	std::string username;
-	std::string password;
-	QLineEdit* user_field;
-	QLineEdit* password_field;
-
-	GUI* gui;
+    Ui::Form *ui;
 };
-#endif
+
+#endif // LOGIN_H
