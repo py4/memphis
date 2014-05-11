@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Sun May 11 20:47:59 2014
+** Created: Sun May 11 20:56:19 2014
 **      by: Qt User Interface Compiler version 4.8.4
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -77,7 +77,7 @@ public:
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         stack = new QStackedWidget(centralwidget);
         stack->setObjectName(QString::fromUtf8("stack"));
-        stack->setGeometry(QRect(0, 0, 471, 361));
+        stack->setGeometry(QRect(0, 1, 471, 361));
         stack->setContextMenuPolicy(Qt::ActionsContextMenu);
         login_form = new QWidget();
         login_form->setObjectName(QString::fromUtf8("login_form"));
@@ -180,6 +180,7 @@ public:
         listWidget = new QListWidget(tab_3);
         listWidget->setObjectName(QString::fromUtf8("listWidget"));
         listWidget->setGeometry(QRect(170, 60, 111, 271));
+        listWidget->setContextMenuPolicy(Qt::CustomContextMenu);
         tabWidget->addTab(tab_3, QString());
         tab_4 = new QWidget();
         tab_4->setObjectName(QString::fromUtf8("tab_4"));

@@ -337,6 +337,7 @@ void MainWindow::on_shelf_books_table_customContextMenuRequested(const QPoint &p
 
 void MainWindow::render_people_form()
 {
+    ui->listWidget->clear();
     vector<User*> users = DB::db()->get_users();
     vector<User*> non_friends;
     for(int i = 0; i < users.size(); i++)
@@ -349,4 +350,22 @@ void MainWindow::render_people_form()
     }
     for(int i = 0; i < non_friends.size(); i++)
         ui->listWidget->addItem(QString::fromStdString(non_friends[i]->get_username()));
+}
+
+void MainWindow::follow()
+{
+    string username = ui->listWidget->currentItem()->text().toStdString();
+    User* user = DB::db()->find_user(username);
+    DB::db()->user()->follow(user);
+    set_status(RespondTo::Success::followed());
+    render_people_form();
+}
+
+void MainWindow::on_listWidget_customContextMenuRequested(const QPoint &pos)
+{
+    QMenu* menu = new QMenu(this);
+    QAction* action = new QAction("Follow",this);
+    menu->addAction(action);
+    connect(action,SIGNAL(triggered()),this,SLOT(follow()));
+    menu->popup(ui->listWidget->viewport()->mapToGlobal(pos));
 }

@@ -35,6 +35,7 @@ private slots:
     void add_to_library();
     void like();
     void add_to_shelf();
+    void follow();
 
     void on_tabWidget_currentChanged(int index);
 
@@ -43,6 +44,8 @@ private slots:
     void on_shelves_box_currentIndexChanged(int index);
 
     void on_shelf_books_table_customContextMenuRequested(const QPoint &pos);
+
+    void on_listWidget_customContextMenuRequested(const QPoint &pos);
 
 private:
     Ui::MainWindow *ui;

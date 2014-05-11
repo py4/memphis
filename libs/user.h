@@ -28,10 +28,10 @@ public:
 	void add_log(std::string);
 	bool is_admin();
 	std::string get_username() { return username; }
-private:
-	void like_book(Book*);
 	void follow(User*);
+	void like_book(Book*);
 	void show_logs();
+private:
 	Library* library;
 	std::vector <User*> followings;
 	std::vector <User*> followers;
