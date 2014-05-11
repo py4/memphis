@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
     rerender_explore = false;
     rerender_shelves = true;
     rerender_notifications = true;
-    rerender_friends = true;
+    rerender_people = true;
     if(!DB::db()->user())
     {
 
@@ -241,6 +241,13 @@ void MainWindow::on_tabWidget_currentChanged(int index)
             render_shelves_form();
             rerender_shelves = false;
         }
+    if(index == 2)
+        if(rerender_people)
+        {
+            cout << "rerendering people" << endl;
+            render_people_form();
+            rerender_people = false;
+        }
 }
 
 void MainWindow::on_add_shelf_button_clicked()
@@ -326,4 +333,20 @@ void MainWindow::on_shelf_books_table_customContextMenuRequested(const QPoint &p
     }
 
     menu->popup(ui->shelf_books_table->viewport()->mapToGlobal(pos));
+}
+
+void MainWindow::render_people_form()
+{
+    vector<User*> users = DB::db()->get_users();
+    vector<User*> non_friends;
+    for(int i = 0; i < users.size(); i++)
+    {
+        if(users[i] == DB::db()->user())
+            continue;
+        if(DB::db()->user()->does_follow(users[i]))
+            continue;
+        non_friends.push_back(users[i]);
+    }
+    for(int i = 0; i < non_friends.size(); i++)
+        ui->listWidget->addItem(QString::fromStdString(non_friends[i]->get_username()));
 }

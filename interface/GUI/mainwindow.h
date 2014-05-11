@@ -18,11 +18,12 @@ public:
     void set_status(std::string status);
     void render_explore_form();
     void render_shelves_form();
+    void render_people_form();
 
     bool rerender_explore;
     bool rerender_shelves;
     bool rerender_notifications;
-    bool rerender_friends;
+    bool rerender_people;
 
 private slots:
     void on_pushButton_clicked();

@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Sun May 11 20:08:58 2014
+** Created: Sun May 11 20:47:59 2014
 **      by: Qt User Interface Compiler version 4.8.4
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -19,6 +19,7 @@
 #include <QtGui/QHeaderView>
 #include <QtGui/QLabel>
 #include <QtGui/QLineEdit>
+#include <QtGui/QListWidget>
 #include <QtGui/QMainWindow>
 #include <QtGui/QMenuBar>
 #include <QtGui/QPushButton>
@@ -61,6 +62,8 @@ public:
     QLabel *label_4;
     QComboBox *shelves_box;
     QWidget *tab_3;
+    QLabel *label_5;
+    QListWidget *listWidget;
     QWidget *tab_4;
     QMenuBar *menubar;
     QStatusBar *statusbar;
@@ -171,6 +174,12 @@ public:
         tabWidget->addTab(tab_2, QString());
         tab_3 = new QWidget();
         tab_3->setObjectName(QString::fromUtf8("tab_3"));
+        label_5 = new QLabel(tab_3);
+        label_5->setObjectName(QString::fromUtf8("label_5"));
+        label_5->setGeometry(QRect(150, 30, 201, 21));
+        listWidget = new QListWidget(tab_3);
+        listWidget->setObjectName(QString::fromUtf8("listWidget"));
+        listWidget->setGeometry(QRect(170, 60, 111, 271));
         tabWidget->addTab(tab_3, QString());
         tab_4 = new QWidget();
         tab_4->setObjectName(QString::fromUtf8("tab_4"));
@@ -209,7 +218,8 @@ public:
         add_shelf_button->setText(QApplication::translate("MainWindow", "Add Shelf", 0, QApplication::UnicodeUTF8));
         label_4->setText(QApplication::translate("MainWindow", "Select Shelf", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("MainWindow", "Shelves", 0, QApplication::UnicodeUTF8));
-        tabWidget->setTabText(tabWidget->indexOf(tab_3), QApplication::translate("MainWindow", "Friends", 0, QApplication::UnicodeUTF8));
+        label_5->setText(QApplication::translate("MainWindow", "Stay in touch with people! ", 0, QApplication::UnicodeUTF8));
+        tabWidget->setTabText(tabWidget->indexOf(tab_3), QApplication::translate("MainWindow", "People", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(tab_4), QApplication::translate("MainWindow", "Notifications", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 

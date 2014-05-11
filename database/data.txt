@@ -276,4 +276,24 @@
 		<favorites>
 		</favorites>
 	</user>
+	<user>
+		<username>
+			ali
+		</username>
+		<password>
+			akbaru
+		</password>
+		<shelves>
+			<shelf name="default">
+			</shelf>
+		</shelves>
+		<followings>
+		</followings>
+		<followers>
+		</followers>
+		<ActivityLogs>
+		</ActivityLogs>
+		<favorites>
+		</favorites>
+	</user>
 </users>

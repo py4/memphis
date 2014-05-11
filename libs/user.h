@@ -27,6 +27,7 @@ public:
 	Library* get_library();
 	void add_log(std::string);
 	bool is_admin();
+	std::string get_username() { return username; }
 private:
 	void like_book(Book*);
 	void follow(User*);
