@@ -27,12 +27,13 @@ void XML::delete_node(Node* node)
 
 bool XML::load(string file_name)
 {
+	cout << "file_name:  " << file_name << endl;
 	delete_node(root_node);
 	root_node = new Node("root");
 	root_node->parent = root_node;
 	current_node = root_node;
 	raw_data.open(file_name.c_str());
-
+	cout << raw_data << endl;
 	if(raw_data)
 		return true;
 	else

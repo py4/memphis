@@ -31,10 +31,23 @@ void CLI::start()
 		try {
 			
 			if(params["command"] == "register")
+			{
 				sign_up();
+				continue;
+			}
 			else if(params["command"] == "login")
+			{
 				sign_in();
-			else if(params["command"] == "logout")
+				continue;
+			}
+			else if(params["command"] == "quit")
+			{
+				DB::db()->save_to_disk();
+				break;
+			}
+
+			ensure_user();			
+			if(params["command"] == "logout")
 			{
 				DB::db()->current_user = NULL;
 				cout << RespondTo::Success::ok_logout() << endl;
@@ -62,15 +75,15 @@ void CLI::start()
 				follow();
 			else if(params["command"] == "show_updates")
 				show_updates();
-			else if(params["command"] == "update_database") //TODO: permission checking
+			else if(params["command"] == "update_database")
 			{
+				if(!DB::db()->current_user->is_admin())
+				{
+					cerr << RespondTo::Failure::access_denied() << endl;
+					continue;
+				}
 				DB::db()->load_new_books();
 				cout << RespondTo::Success::updated() << endl;
-			}
-			else if(params["command"] == "quit")
-			{
-				DB::db()->save_to_disk();
-				break;
 			}
 			else {
 				cout << "undefined command" << endl;
@@ -86,7 +99,10 @@ void CLI::start()
 void CLI::sign_up()
 {
 	ensure_no_user();
-	
+
+	if(params["username"] == "" or params["password"] == "")
+		throw RespondTo::Failure::bad_input();
+
 	User* user = DB::db()->find_user(params["username"]);
 	if(user != NULL)
 		throw RespondTo::Failure::in_use();
@@ -101,6 +117,9 @@ void CLI::sign_up()
 void CLI::sign_in()
 {
 	ensure_no_user();
+
+	if(params["username"] == "" or params["password"] == "")
+		throw RespondTo::Failure::bad_input();
 	
 	User* user = DB::db()->find_user(params["username"]);
 	if(user == NULL)
@@ -115,8 +134,9 @@ void CLI::sign_in()
 
 void CLI::add_book()
 {
-	ensure_user();
-	
+	if(params["name"] == "")
+		throw RespondTo::Failure::bad_input();
+
 	Book* book = DB::db()->find_book(params["name"]);
 	if(book == NULL)
 		throw RespondTo::Failure::book_not_found();
@@ -134,7 +154,8 @@ void CLI::add_book()
 
 void CLI::show_book()
 {
-	ensure_user();
+	if(params["name"] == "")
+		throw RespondTo::Failure::bad_input();
 
 	Book* book = DB::db()->find_book(params["name"]);
 	if(book == NULL)
@@ -149,7 +170,9 @@ void CLI::show_book()
 
 void CLI::add_shelf()
 {
-	ensure_user();
+	if(params["shelf_name"] == "")
+		throw RespondTo::Failure::bad_input();
+
 	const Shelf* found_shelf = DB::db()->current_user->library->get_shelf(params["shelf_name"]);
 	if(found_shelf != NULL)
 		throw RespondTo::Failure::shelf_already_exists();
@@ -158,13 +181,13 @@ void CLI::add_shelf()
 	cout << RespondTo::Success::shelf_added() << endl;
 }
 
-//TODO: factoriing ensure_user()
-//TODO: wrong input when parameters are not passed
 //TODO: checking friendships
 //TODO: checking public private
 void CLI::add_to_shelf()
 {
-	ensure_user();
+	if(params["shelf_name"] == "" or params["book_name"] == "")
+		throw RespondTo::Failure::bad_input();
+
 	Shelf* found_shelf = DB::db()->current_user->library->get_shelf(params["shelf_name"]);
 	string book_name = params["book_name"];
 	
@@ -186,7 +209,9 @@ void CLI::add_to_shelf()
 
 void CLI::like()
 {
-	ensure_user();
+	if(params["name"] == "")
+		throw RespondTo::Failure::bad_input();
+
 	Book* found_book = DB::db()->current_user->library->find_book(params["name"]);
 	if(found_book == NULL)
 		throw RespondTo::Failure::book_not_in_library();
@@ -200,7 +225,9 @@ void CLI::like()
 
 void CLI::show_books()
 {
-	ensure_user();
+	if(params["shelf_name"] == "")
+		throw RespondTo::Failure::bad_input();
+
 	Shelf* found_shelf = DB::db()->current_user->library->get_shelf(params["shelf_name"]);
 	if(found_shelf == NULL)
 		throw RespondTo::Failure::shelf_not_found();
@@ -209,19 +236,19 @@ void CLI::show_books()
 
 void CLI::show_all_books()
 {
-	ensure_user();
 	DB::db()->current_user->library->show_all_books();
 }
 
 void CLI::show_favorites()
 {
-	ensure_user();
 	DB::db()->current_user->library->show_favorites();
 }
 
 void CLI::follow()
 {
-	ensure_user();
+	if(params["username"] == "")
+		throw RespondTo::Failure::bad_input();
+
 	User* user = DB::db()->find_user(params["username"]);
 	if(user == NULL)
 		throw RespondTo::Failure::user_not_found();
@@ -233,7 +260,6 @@ void CLI::follow()
 
 void CLI::show_updates()
 {
-	ensure_user();
 	DB::db()->current_user->show_logs();
 }
 

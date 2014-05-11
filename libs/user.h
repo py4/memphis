@@ -26,7 +26,7 @@ public:
 	const vector<Log*>& get_activity_logs() const;
 	Library* get_library();
 	void add_log(std::string);
-
+	bool is_admin();
 private:
 	void like_book(Book*);
 	void follow(User*);

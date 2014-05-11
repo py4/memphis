@@ -1,8 +1,8 @@
 #ifndef DB_H_
 #define DB_H_
 
-#define NEW_BOOKS "/home/pooya/Courses/AP/assign8/database/database.txt"
-#define DATA "/home/pooya/Courses/AP/assign8/database/data.txt"
+#define NEW_BOOKS "database/database.txt"
+#define DATA "database/data.txt"
 
 #include <vector>
 #include "../parser/XML.h"
@@ -10,8 +10,6 @@ class User;
 class Book;
 class CLI;
 class GUI;
-//TODO: relative path not working
-//TODO: admin user and its permission
 class DB
 {
 	friend class CLI;

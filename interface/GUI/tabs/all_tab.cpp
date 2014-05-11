@@ -12,7 +12,6 @@
 #include "../main_window.h"
 #include "../../../responder/responder.h"
 using namespace std;
-//TODO: clearing notifications
 AllTab::AllTab(QWidget* parent) : QWidget(parent)
 {
 	QWidget* page = new QWidget(this);
@@ -71,13 +70,10 @@ void AllTab::add_to_library()
 	QModelIndex index = select->selectedRows()[0];
 	QString str = table->item(index.row(),index.column())->text(); //= table->data(index.row())->toString();
 	string book_name = str.toStdString();
-	cerr << "fuck2" << endl;
 	Book* book = DB::db()->find_book(book_name);
-	cerr << "fuck3" << endl;
 	if(DB::db()->user()->get_library()->add_book(book_name))
 	{
 		DB::db()->user()->add_log(Logger::added_to_library(book_name));
-		cerr << "6" << endl;
 		MainWindow::set_status(RespondTo::Success::book_added());
 	}
 	else

@@ -96,4 +96,9 @@ Library* User::get_library()
 {
 	return library;
 }
+
+bool User::is_admin()
+{
+	return username == "admin";
+}
 	

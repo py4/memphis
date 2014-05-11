@@ -172,8 +172,8 @@ void DB::populate_users()
 	string line;
 	User* c_user = NULL;
 
-	map <string, vector <string> > followings;
-	map <string, vector <string> > followers;
+	map <User*, vector <string> > followings;
+	map <User*, vector <string> > followers;
 	for(unsigned int i = 0; i < xml["users"]->children.size();i++)
 	{
 		Node* user_node = xml["users"]->children[i];
@@ -197,21 +197,48 @@ void DB::populate_users()
 		vector<Node*>::iterator end = c_user->followings_node->children.end();
 		for(; it != end; it++)
 		{
-			User* user_following = find_user((*it)->value);
-			c_user->followings.push_back(user_following); // if it is NULL then we have a bug
+			//User* user_following = find_user((*it)->value);
+			//c_user->followings.push_back(user_following); // if it is NULL then we have a bug
+			followings[c_user].push_back((*it)->value);
 		}
 
 		it = c_user->followers_node->children.begin();
 		end = c_user->followers_node->children.end();
 		for(; it != end; it++)
 		{
-			cerr << "follower name:  " << (*it)->value << endl;
-			User* user_follower = find_user((*it)->value);
-			cerr << "follower pointer:  " << user_follower << endl;
-			c_user->followers.push_back(user_follower);
+			//User* user_follower = find_user((*it)->value);
+			//c_user->followers.push_back(user_follower);
+			followers[c_user].push_back((*it)->value);
 		}
 		users.push_back(c_user);
 	}
+
+	map<User*,vector<string> >::iterator it_start = followers.begin();
+	map<User*,vector<string> >::iterator it_end = followers.end();
+	for(; it_start != it_end; it_start++)
+	{
+		vector<string> followers = it_start->second;
+		User* user = it_start->first;
+		for(int i = 0; i < followers.size(); i++)
+		{
+			User* follower = find_user(followers[i]);
+			user->followers.push_back(follower);
+		}
+	}
+
+	it_start = followings.begin();
+	it_end = followings.end();
+	for(; it_start != it_end ; it_start++)
+	{
+		vector<string> followings = it_start->second;
+		User* user = it_start->first;
+		for(int i = 0; i < followings.size(); i++)
+		{
+			User* following = find_user(followings[i]);
+			user->followings.push_back(following);
+		}
+	}
+	
 }
 
 void DB::populate_books()
@@ -239,6 +266,13 @@ void DB::populate()
 	//load_new_books();
 	populate_books();
 	populate_users();
+
+	User* admin = find_user("admin");
+	if(admin == NULL)
+	{
+		cout << "created admin!" << endl;
+		add_user(new User("admin","admin"));
+	}
 }
 
 string DB::dump_db()
