@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'mainwindow.h'
 **
-** Created: Sun May 11 19:20:45 2014
+** Created: Sun May 11 20:15:25 2014
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.4)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_MainWindow[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-       8,   14, // methods
+      10,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -39,6 +39,8 @@ static const uint qt_meta_data_MainWindow[] = {
      138,   11,   11,   11, 0x08,
      159,  153,   11,   11, 0x08,
      192,   11,   11,   11, 0x08,
+     222,  153,   11,   11, 0x08,
+     262,   62,   11,   11, 0x08,
 
        0        // eod
 };
@@ -50,6 +52,8 @@ static const char qt_meta_stringdata_MainWindow[] = {
     "add_to_library()\0like()\0add_to_shelf()\0"
     "index\0on_tabWidget_currentChanged(int)\0"
     "on_add_shelf_button_clicked()\0"
+    "on_shelves_box_currentIndexChanged(int)\0"
+    "on_shelf_books_table_customContextMenuRequested(QPoint)\0"
 };
 
 void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -66,6 +70,8 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 5: _t->add_to_shelf(); break;
         case 6: _t->on_tabWidget_currentChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 7: _t->on_add_shelf_button_clicked(); break;
+        case 8: _t->on_shelves_box_currentIndexChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 9: _t->on_shelf_books_table_customContextMenuRequested((*reinterpret_cast< const QPoint(*)>(_a[1]))); break;
         default: ;
         }
     }
@@ -103,9 +109,9 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 8)
+        if (_id < 10)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 8;
+        _id -= 10;
     }
     return _id;
 }

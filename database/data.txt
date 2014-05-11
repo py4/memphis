@@ -130,6 +130,11 @@
 			</shelf>
 			<shelf name="romance">
 			</shelf>
+			<shelf name="drama">
+				<book>
+					When Patty Went to College
+				</book>
+			</shelf>
 		</shelves>
 		<followings>
 		</followings>
@@ -257,6 +262,14 @@
 				</username>
 				<message>
 					liked Lady L
+				</message>
+			</log>
+			<log>
+				<username>
+					pooya
+				</username>
+				<message>
+					added When Patty Went to College to drama
 				</message>
 			</log>
 		</ActivityLogs>

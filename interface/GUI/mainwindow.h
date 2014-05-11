@@ -2,7 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
+#include <string>
+#include <QTableWidgetItem>
 namespace Ui {
 class MainWindow;
 }
@@ -38,9 +39,15 @@ private slots:
 
     void on_add_shelf_button_clicked();
 
+    void on_shelves_box_currentIndexChanged(int index);
+
+    void on_shelf_books_table_customContextMenuRequested(const QPoint &pos);
+
 private:
     Ui::MainWindow *ui;
     void closeEvent(QCloseEvent*);
+    std::string book_name;
+    QTableWidgetItem* selected_row;
 };
 
 #endif // MAINWINDOW_H

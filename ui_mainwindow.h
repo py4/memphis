@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Sun May 11 19:20:05 2014
+** Created: Sun May 11 20:08:58 2014
 **      by: Qt User Interface Compiler version 4.8.4
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -148,6 +148,7 @@ public:
         shelf_books_table = new QTableWidget(tab_2);
         shelf_books_table->setObjectName(QString::fromUtf8("shelf_books_table"));
         shelf_books_table->setGeometry(QRect(0, 40, 371, 301));
+        shelf_books_table->setContextMenuPolicy(Qt::CustomContextMenu);
         add_shelf_button = new QPushButton(tab_2);
         add_shelf_button->setObjectName(QString::fromUtf8("add_shelf_button"));
         add_shelf_button->setGeometry(QRect(360, 0, 99, 27));

@@ -123,7 +123,8 @@ void MainWindow::on_all_table_customContextMenuRequested(const QPoint &pos)
     QModelIndex index = ui->all_table->indexAt(pos);
     if(!index.isValid())
         return;
-    string book_name = ui->all_table->selectedItems()[0]->text().toStdString();
+    book_name = ui->all_table->selectedItems()[0]->text().toStdString();
+    selected_row = ui->all_table->selectedItems()[0];
     QMenu* menu = new QMenu(this);
     QAction* action = 0;
     if(DB::db()->user()->get_library()->is_in_library(book_name))
@@ -137,7 +138,6 @@ void MainWindow::on_all_table_customContextMenuRequested(const QPoint &pos)
         }
 
         vector<Shelf*> shelves = DB::db()->user()->get_library()->get_shelves();
-        string book_name = ui->all_table->selectedItems()[0]->text().toStdString();
         int count = 0;
         for(int i = 0; i < shelves.size(); i++)
         {
@@ -181,18 +181,19 @@ void MainWindow::add_to_library()
 
 void MainWindow::like()
 {
-    string book_name = ui->all_table->selectedItems()[0]->text().toStdString();
+    //string book_name = ui->all_table->selectedItems()[0]->text().toStdString();
     Book* book = DB::db()->find_book(book_name);
     DB::db()->user()->get_library()->star_book(book);
     DB::db()->user()->add_log(Logger::liked(book_name));
     set_status(RespondTo::Success::liked());
-    ui->all_table->selectedItems()[0]->setData(Qt::BackgroundRole, Qt::blue);
+    //ui->all_table->selectedItems()[0]->setData(Qt::BackgroundRole, Qt::blue);
+    selected_row->setData(Qt::BackgroundRole,Qt::blue);
 }
 
 void MainWindow::add_to_shelf()
 {
     vector<Shelf*> shelves = DB::db()->user()->get_library()->get_shelves();
-    string book_name = ui->all_table->selectedItems()[0]->text().toStdString();
+    //string book_name = ui->all_table->selectedItems()[0]->text().toStdString();
     QStringList items;
     for(int i = 0; i < shelves.size(); i++)
     {
@@ -203,8 +204,12 @@ void MainWindow::add_to_shelf()
         items << QString::fromStdString(shelves[i]->get_name());
     }
 
-    QString shelf_name = QInputDialog::getItem(this,tr("Choose shelf"),tr("Shelf:"),items,0,FALSE);
-    cout << shelf_name.toStdString() << endl;
+    QString name = QInputDialog::getItem(this,tr("Choose shelf"),tr("Shelf:"),items,0,FALSE);
+    string shelf_name = name.toStdString();
+    Shelf* shelf = DB::db()->user()->get_library()->get_shelf(shelf_name);
+    shelf->add_book(book_name);
+    DB::db()->user()->add_log(Logger::added_to_shelf(book_name,shelf_name));
+    set_status(RespondTo::Success::book_added_to_shelf());
 }
 
 void MainWindow::set_status(string status)
@@ -250,4 +255,75 @@ void MainWindow::on_add_shelf_button_clicked()
     DB::db()->user()->get_library()->add_shelf(shelf_name);
     set_status(RespondTo::Success::shelf_added());
     render_shelves_form();
+}
+
+
+void MainWindow::on_shelves_box_currentIndexChanged(int index)
+{
+    string shelf_name = ui->shelves_box->itemText(index).toStdString();
+    Shelf* shelf = DB::db()->user()->get_library()->get_shelf(shelf_name);
+    if(shelf == NULL)
+        return;
+
+    vector<Book*> books = shelf->get_books();
+    ui->shelf_books_table->clear();
+    ui->shelf_books_table->setRowCount(books.size());
+    ui->shelf_books_table->setColumnCount(4);
+    ui->shelf_books_table->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->shelf_books_table->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->shelf_books_table->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    ui->shelf_books_table->setHorizontalHeaderItem(0, new QTableWidgetItem("Name"));
+    ui->shelf_books_table->setHorizontalHeaderItem(1, new QTableWidgetItem("Author"));
+    ui->shelf_books_table->setHorizontalHeaderItem(2, new QTableWidgetItem("Publisher"));
+    ui->shelf_books_table->setHorizontalHeaderItem(3, new QTableWidgetItem("Year"));
+    for(int i = 0; i < books.size(); i++)
+    {
+        ui->shelf_books_table->setItem(i,0, new QTableWidgetItem(QString::fromStdString(books[i]->get_name())));
+        ui->shelf_books_table->setItem(i,1, new QTableWidgetItem(QString::fromStdString(books[i]->get_author())));
+        ui->shelf_books_table->setItem(i,2, new QTableWidgetItem(QString::fromStdString(books[i]->get_publisher())));
+        ui->shelf_books_table->setItem(i,3, new QTableWidgetItem(QString::fromStdString(books[i]->get_year())));
+
+        Library* library = DB::db()->user()->get_library();
+        if(library->is_in_starred(books[i]->get_name()))
+            ui->shelf_books_table->item(i,0)->setData(Qt::BackgroundRole,Qt::blue);
+    }
+}
+
+void MainWindow::on_shelf_books_table_customContextMenuRequested(const QPoint &pos)
+{
+    QModelIndex index = ui->shelf_books_table->indexAt(pos);
+    if(!index.isValid())
+        return;
+    book_name = ui->shelf_books_table->selectedItems()[0]->text().toStdString();
+    selected_row = ui->shelf_books_table->selectedItems()[0];
+    QMenu* menu = new QMenu(this);
+    QAction* action = 0;
+    if(DB::db()->user()->get_library()->is_in_library(book_name))
+    {
+        if(!DB::db()->user()->get_library()->is_in_starred(book_name))
+        {
+            action = new QAction("Like this", this);
+            menu->addAction(action);
+            connect(action,SIGNAL(triggered()),this,SLOT(like()));
+        }
+
+        vector<Shelf*> shelves = DB::db()->user()->get_library()->get_shelves();
+        int count = 0;
+        for(int i = 0; i < shelves.size(); i++)
+        {
+            if(shelves[i]->get_name() == "default")
+                continue;
+            if(shelves[i]->has_book(book_name))
+                continue;
+            count++;
+        }
+        if(count > 0)
+        {
+            action = new QAction("Add to Shelf", this);
+            menu->addAction(action);
+            connect(action,SIGNAL(triggered()),this,SLOT(add_to_shelf()));
+        }
+    }
+
+    menu->popup(ui->shelf_books_table->viewport()->mapToGlobal(pos));
 }

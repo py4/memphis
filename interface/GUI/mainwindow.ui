@@ -161,6 +161,9 @@
           <height>301</height>
          </rect>
         </property>
+        <property name="contextMenuPolicy">
+         <enum>Qt::CustomContextMenu</enum>
+        </property>
        </widget>
        <widget class="QPushButton" name="add_shelf_button">
         <property name="geometry">
